@@ -270,14 +270,14 @@
   - **Verification**: Admin can edit and save `now-status` values.
   - **Evidence**: `now-status` global defined in `payload.config.ts` with fields `currentProject`, `progressPct`, `progressUpdatedAt`, `milestone`, `learningFocus`, `availabilityText`, `slotsOpen`, and `showGithub`. Public read access configured. Type checked via `tsc --noEmit` exit 0.
 
-- [ ] **`TASK-P4-06`**: Extend `projects` Collection with Case Study Fields
+- [x] **`TASK-P4-06`**: Extend `projects` Collection with Case Study Fields
   - **Phase / Gate**: P4 / G1
   - **Plan References**: Section 9.2, F-160
   - **Target Files**: `apps/web/payload.config.ts`
   - **Action**: Add additive optional fields to `projects`: `businessType`, `problem`, `solution`, `result`, `resultKind` (`measured`, `expected`, `simulated`, `none`), `architectureNote`, `caseStudyEnabled` (default false). Add publish-gate hook preventing publish if result is missing.
   - **Acceptance Criteria**: Existing projects load without error; new case-study fields are editable.
   - **Verification**: Existing `ProjectsApp` continues to render projects cleanly.
-  - **Evidence**: `[Agent to paste updated projects fields]`
+  - **Evidence**: Additive optional fields (`businessType`, `problem`, `solution`, `result`, `resultKind`, `architectureNote`, `caseStudyEnabled`) and `beforeChange` publish-gate validation hook added to `projects` in `payload.config.ts`. All 49 unit and integration tests continue to pass without error, and `tsc --noEmit` exits 0.
 
 - [ ] **`TASK-P4-07`**: Implement `LeadService` (`core/leads/LeadService.ts`)
   - **Phase / Gate**: P4 / G1

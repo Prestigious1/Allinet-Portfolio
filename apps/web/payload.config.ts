@@ -91,7 +91,30 @@ export default buildConfig({
         { name: 'challenges', type: 'richText', admin: { description: 'What were the hardest parts of building this?' } },
         { name: 'learnings', type: 'richText', admin: { description: 'What did you learn from this project?' } },
         { name: 'sort_order', type: 'number', admin: { description: 'Used to sort projects in the UI. Lower numbers appear first.' } },
+        { name: 'businessType', type: 'text', admin: { description: 'Target market / industry (e.g. Fintech, Healthcare, Event Ops).' } },
+        { name: 'problem', type: 'textarea', admin: { description: 'The fundamental business problem addressed.' } },
+        { name: 'solution', type: 'textarea', admin: { description: 'Architectural and product solution delivered.' } },
+        { name: 'result', type: 'textarea', admin: { description: 'Concrete quantifiable business outcome or performance metric.' } },
+        {
+          name: 'resultKind',
+          type: 'select',
+          options: ['measured', 'expected', 'simulated', 'none'],
+          defaultValue: 'none',
+          admin: { description: 'Classification of the business result.' },
+        },
+        { name: 'architectureNote', type: 'textarea', admin: { description: 'Key technical decisions, bottlenecks solved, or trade-offs made.' } },
+        { name: 'caseStudyEnabled', type: 'checkbox', defaultValue: false, admin: { description: 'Enable full case study presentation on public site.' } },
       ],
+      hooks: {
+        beforeChange: [
+          ({ data }: any) => {
+            if (data?.caseStudyEnabled && data?._status === 'published' && !data?.result) {
+              throw new Error('Case study enabled projects require a verified result before publishing.')
+            }
+            return data
+          },
+        ],
+      },
     }),
     applyStandardConfig({
       slug: 'project-categories',
