@@ -516,6 +516,22 @@ export default buildConfig({
         { name: 'fallback_provider', type: 'select', options: ['openrouter', 'openai', 'none'], defaultValue: 'openai', required: true },
         { name: 'fallback_model', type: 'text', defaultValue: 'gpt-4o', required: true },
       ]
+    },
+    {
+      slug: 'now-status',
+      access: {
+        read: () => true,
+      },
+      fields: [
+        { name: 'currentProject', type: 'text', required: true, defaultValue: 'ALLINET Portfolio OS v2.0', admin: { description: 'Current active project being built.' } },
+        { name: 'progressPct', type: 'number', min: 0, max: 100, defaultValue: 85, admin: { description: 'Current project completion percentage (0-100).' } },
+        { name: 'progressUpdatedAt', type: 'date', admin: { description: 'Timestamp when project progress was last updated.' } },
+        { name: 'milestone', type: 'text', defaultValue: 'Security hardening & CMS schema expansion', admin: { description: 'Active milestone in progress.' } },
+        { name: 'learningFocus', type: 'text', defaultValue: 'Distributed rate limiting, LLM memory retrieval, Next.js 16 Edge runtime', admin: { description: 'Topics or technologies currently being studied.' } },
+        { name: 'availabilityText', type: 'text', defaultValue: 'Open for high-impact advisory & architecture contracts', admin: { description: 'Human-readable availability headline.' } },
+        { name: 'slotsOpen', type: 'number', defaultValue: 1, admin: { description: 'Number of active project slots available this quarter.' } },
+        { name: 'showGithub', type: 'checkbox', defaultValue: true, admin: { description: 'Show live GitHub activity feed on the now page.' } },
+      ],
     }
   ],
 })

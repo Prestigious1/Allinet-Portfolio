@@ -261,14 +261,14 @@
   - **Verification**: Verify in Payload admin dashboard.
   - **Evidence**: `services` (unique slug, outcome, deliverables, published, SEO fields), `demos` (unique slug, title, status, challengeName), and `changelog` (unique version slug, title, description, date, published) added via `applyStandardConfig`. Verified with `tsc --noEmit` exit 0.
 
-- [ ] **`TASK-P4-05`**: Create `now-status` Global in Payload CMS
+- [x] **`TASK-P4-05`**: Create `now-status` Global in Payload CMS
   - **Phase / Gate**: P4 / G1
   - **Plan References**: Section 9.2, F-200
   - **Target Files**: `apps/web/payload.config.ts`
   - **Action**: Define `now-status` global: `currentProject`, `progressPct`, `progressUpdatedAt`, `milestone`, `learningFocus`, `availabilityText`, `slotsOpen`, `showGithub`.
   - **Acceptance Criteria**: Global appears under Globals menu in `/admin`.
   - **Verification**: Admin can edit and save `now-status` values.
-  - **Evidence**: `[Agent to paste now-status global config]`
+  - **Evidence**: `now-status` global defined in `payload.config.ts` with fields `currentProject`, `progressPct`, `progressUpdatedAt`, `milestone`, `learningFocus`, `availabilityText`, `slotsOpen`, and `showGithub`. Public read access configured. Type checked via `tsc --noEmit` exit 0.
 
 - [ ] **`TASK-P4-06`**: Extend `projects` Collection with Case Study Fields
   - **Phase / Gate**: P4 / G1
