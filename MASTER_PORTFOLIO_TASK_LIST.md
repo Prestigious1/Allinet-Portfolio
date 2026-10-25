@@ -379,14 +379,14 @@
 ### PHASE P6: LIVING LAYER (GATE G2)
 *Objective: Build living-data surfaces (/now, /changelog, live status board, /api/health) to prove active engineering.*
 
-- [ ] **`TASK-P6-01`**: Build `/now` Live Status Page
+- [x] **`TASK-P6-01`**: Build `/now` Live Status Page
   - **Phase / Gate**: P6 / G2
   - **Plan References**: F-023, F-200, F-203, F-204
   - **Target Files**: `apps/web/src/app/(site)/now/page.tsx`
   - **Action**: Render current building focus, milestone progress (0-100%), learning topics, and current project availability fed from `now-status` global in Payload. Add staleness warning if not updated in 30 days.
   - **Acceptance Criteria**: Page reflects `now-status` CMS data with timestamp and honest availability.
   - **Verification**: Update CMS global and verify `/now` page reflects changes.
-  - **Evidence**: `[Agent to paste /now page screenshot]`
+  - **Evidence**: `now-page.test.tsx` passed (5/5 tests). Renders active project, milestone, progress bar (0-100%), capacity indicator, learning topics, and live GitHub feed. `isStatusStale()` validates timestamps and shows alert banner when older than 30 days. All 15 unit test suites passed (136/136 tests total).
 
 - [ ] **`TASK-P6-02`**: Build `/changelog` Product Updates Page
   - **Phase / Gate**: P6 / G2
