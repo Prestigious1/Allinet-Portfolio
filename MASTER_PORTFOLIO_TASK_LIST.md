@@ -365,14 +365,14 @@
   - **Verification**: E2E test submits form and confirms record in database.
   - **Evidence**: `leads-route.test.ts` (12/12 passed) + `contact-page.test.tsx` (4/4 passed). Validated schema, Turnstile token, honeypot interception, duplicate detection, and contact form accessible feedback states. All 13 test files passed (121/121 tests total).
 
-- [ ] **`TASK-P5-08`**: Implement Automated SEO Engine (`sitemap.ts`, `robots.ts`, JSON-LD)
+- [x] **`TASK-P5-08`**: Implement Automated SEO Engine (`sitemap.ts`, `robots.ts`, JSON-LD)
   - **Phase / Gate**: P5 / G1
   - **Plan References**: F-248..F-253, SPEC-12
   - **Target Files**: `apps/web/src/app/sitemap.ts`, `apps/web/src/app/robots.ts`, `src/lib/seo.ts`
   - **Action**: Generate dynamic sitemap listing all published routes; configure `robots.txt` disallowing `/admin` and `/api`; generate JSON-LD `Person`, `WebSite`, and `Service` schemas.
   - **Acceptance Criteria**: `/sitemap.xml` and `/robots.txt` return valid XML/text with all public routes.
   - **Verification**: Fetch sitemap and parse XML in automated test.
-  - **Evidence**: `[Agent to paste sitemap output sample]`
+  - **Evidence**: `seo-engine.test.ts` passed (10/10 tests). `sitemap()` dynamically includes base URL, public routes (/projects, /services, /process, /cv, /contact, /recruiter, /client, /founder, /now, /changelog, /privacy), and expanded project slugs with valid priorities and change frequencies. `robots()` disallows `/admin`, `/api`, `/brief/share/*` and references sitemap. Schema.org JSON-LD Person, WebSite, Service, BreadcrumbList, and SoftwareApplication schemas validated. All 14 unit test suites passed (131/131 tests total).
 
 ---
 

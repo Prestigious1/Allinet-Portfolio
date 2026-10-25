@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { generateServiceJsonLd } from '@/lib/seo'
 
 export const metadata: Metadata = {
   title: 'Services — What I Build & How I Work',
@@ -63,8 +64,19 @@ const SERVICES = [
 ]
 
 export default function ServicesPage() {
+  const servicesJsonLd = SERVICES.map((s) =>
+    generateServiceJsonLd({
+      name: s.title,
+      description: s.body,
+    })
+  )
+
   return (
     <main id="services-page" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd) }}
+      />
       {/* Hero */}
       <div className="mb-16 text-center">
         <div className="site-badge mb-5 inline-flex">

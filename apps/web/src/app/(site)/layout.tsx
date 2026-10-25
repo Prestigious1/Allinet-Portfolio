@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, Fira_Code, Orbitron } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import { CommandHeader } from '@/components/site/CommandHeader'
+import { generatePersonJsonLd, generateWebSiteJsonLd } from '@/lib/seo'
 import './globals-site.css'
 
 const inter = Inter({
@@ -63,12 +64,25 @@ export default function SiteLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const personJsonLd = generatePersonJsonLd()
+  const websiteJsonLd = generateWebSiteJsonLd()
+
   return (
     <html
       lang="en"
       className={`${inter.variable} ${firaCode.variable} ${orbitron.variable} dark`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+      </head>
       <body className="min-h-screen bg-[#07040d] text-slate-100 antialiased font-sans flex flex-col selection:bg-amber-400/20 selection:text-amber-200">
         <CommandHeader />
         <div className="flex-1 flex flex-col pt-16">
