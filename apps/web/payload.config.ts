@@ -404,7 +404,46 @@ export default buildConfig({
         { name: 'isPublic', type: 'checkbox', defaultValue: true, index: true, admin: { description: 'Whether this item is eligible for public concierge retrieval.' } },
         { name: 'verifiedAt', type: 'date', admin: { description: 'Date when this knowledge was verified.' } },
       ],
-    }
+    },
+    applyStandardConfig({
+      slug: 'services',
+      admin: { useAsTitle: 'title' },
+      fields: [
+        { name: 'title', type: 'text', required: true, admin: { description: 'Service title (e.g., MVP Systems Architecture).' } },
+        { name: 'slug', type: 'text', required: true, unique: true, admin: { description: 'URL-friendly unique slug.' } },
+        { name: 'outcome', type: 'textarea', required: true, admin: { description: 'Core business outcome or transformation delivered.' } },
+        { name: 'deliverables', type: 'json', admin: { description: 'JSON array of deliverable items/milestones.' } },
+        { name: 'published', type: 'checkbox', defaultValue: true, admin: { description: 'Whether this service is published publicly.' } },
+      ],
+    }),
+    applyStandardConfig({
+      slug: 'demos',
+      admin: { useAsTitle: 'title' },
+      fields: [
+        { name: 'slug', type: 'text', required: true, unique: true, admin: { description: 'URL slug for demo (e.g. hall-booking, laundry).' } },
+        { name: 'title', type: 'text', required: true, admin: { description: 'Demo application name.' } },
+        {
+          name: 'status',
+          type: 'select',
+          options: ['live', 'beta', 'concept', 'archived'],
+          defaultValue: 'live',
+          required: true,
+          admin: { description: 'Operational status of the interactive demo.' },
+        },
+        { name: 'challengeName', type: 'text', admin: { description: 'Associated mission or operational challenge name.' } },
+      ],
+    }),
+    applyStandardConfig({
+      slug: 'changelog',
+      admin: { useAsTitle: 'title' },
+      fields: [
+        { name: 'version', type: 'text', required: true, unique: true, admin: { description: 'Semantic version tag (e.g. v2.1.0).' } },
+        { name: 'title', type: 'text', required: true, admin: { description: 'Changelog release title.' } },
+        { name: 'description', type: 'textarea', required: true, admin: { description: 'Summary of changes and updates.' } },
+        { name: 'date', type: 'date', required: true, admin: { description: 'Release publication date.' } },
+        { name: 'published', type: 'checkbox', defaultValue: true, admin: { description: 'Publish to public changelog feed.' } },
+      ],
+    })
   ],
 
   // ── Globals ────────────────────────────────────────────────────────────────

@@ -252,14 +252,14 @@
   - **Verification**: Admin CRUD operational in `/admin`.
   - **Evidence**: `knowledge-items` collection defined in `payload.config.ts` with fields `title`, `category` (indexed select), `content` (plain text), `sourcePath`, `tags` (json array), `isPublic` (indexed boolean), and `verifiedAt`. Access restricted to authenticated admin user via REST with server-side read capability for AI concierge. Type checked with `tsc --noEmit` exit 0.
 
-- [ ] **`TASK-P4-04`**: Create `services`, `demos`, and `changelog` Collections
+- [x] **`TASK-P4-04`**: Create `services`, `demos`, and `changelog` Collections
   - **Phase / Gate**: P4 / G1
   - **Plan References**: Section 9.2
   - **Target Files**: `apps/web/payload.config.ts`
   - **Action**: Add `services` (`title`, `slug`, `outcome`, `deliverables`, `published`), `demos` (`slug`, `title`, `status`, `challengeName`), and `changelog` (`version`, `title`, `description`, `date`, `published`) collections.
   - **Acceptance Criteria**: All 3 collections defined with unique slug constraints.
   - **Verification**: Verify in Payload admin dashboard.
-  - **Evidence**: `[Agent to paste collections diff]`
+  - **Evidence**: `services` (unique slug, outcome, deliverables, published, SEO fields), `demos` (unique slug, title, status, challengeName), and `changelog` (unique version slug, title, description, date, published) added via `applyStandardConfig`. Verified with `tsc --noEmit` exit 0.
 
 - [ ] **`TASK-P4-05`**: Create `now-status` Global in Payload CMS
   - **Phase / Gate**: P4 / G1
