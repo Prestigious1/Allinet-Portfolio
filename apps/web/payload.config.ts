@@ -322,6 +322,39 @@ export default buildConfig({
         { name: 'title', type: 'text' },
         { name: 'messages', type: 'json', required: true },
       ]
+    },
+    {
+      slug: 'leads',
+      admin: { useAsTitle: 'name' },
+      access: {
+        read: ({ req: { user } }: any) => Boolean(user),
+        create: ({ req: { user } }: any) => Boolean(user),
+        update: ({ req: { user } }: any) => Boolean(user),
+        delete: ({ req: { user } }: any) => Boolean(user),
+      },
+      fields: [
+        { name: 'name', type: 'text', required: true, admin: { description: 'Full name of the lead.' } },
+        { name: 'email', type: 'email', required: true, admin: { description: 'Primary contact email.' } },
+        { name: 'whatsapp', type: 'text', admin: { description: 'WhatsApp number for rapid follow-up.' } },
+        { name: 'company', type: 'text', admin: { description: 'Company or business name.' } },
+        { name: 'role', type: 'text', admin: { description: 'Lead role or target audience (e.g. founder, recruiter).' } },
+        { name: 'need', type: 'textarea', admin: { description: 'Specific project need or inquiry.' } },
+        { name: 'budgetRange', type: 'text', admin: { description: 'Estimated budget tier.' } },
+        { name: 'timeline', type: 'text', admin: { description: 'Target delivery timeline.' } },
+        { name: 'sourcePage', type: 'text', admin: { description: 'Page where the lead converted.' } },
+        { name: 'sourceChannel', type: 'text', admin: { description: 'Acquisition channel or referrer.' } },
+        {
+          name: 'status',
+          type: 'select',
+          options: ['new', 'contacted', 'qualified', 'won', 'lost'],
+          defaultValue: 'new',
+          required: true,
+          admin: { description: 'Pipeline stage of the lead.' },
+        },
+        { name: 'notes', type: 'textarea', admin: { description: 'Internal team notes.' } },
+        { name: 'consentGivenAt', type: 'date', admin: { description: 'Timestamp when contact consent was given.' } },
+        { name: 'ipHash', type: 'text', admin: { description: 'Anonymized hash of client IP.' } },
+      ],
     }
   ],
 

@@ -225,14 +225,14 @@
 ### PHASE P4: DATA MODEL, SEEDING & LEADSERVICE (GATE G1)
 *Objective: Expand Payload CMS schema additively with new collections for leads, briefs, and knowledge items.*
 
-- [ ] **`TASK-P4-01`**: Create `leads` Payload Collection
+- [x] **`TASK-P4-01`**: Create `leads` Payload Collection
   - **Phase / Gate**: P4 / G1
   - **Plan References**: D-11, Section 9.2
   - **Target Files**: `apps/web/payload.config.ts` (or collections subdirectory)
   - **Action**: Define `leads` collection with fields: `name`, `email`, `whatsapp`, `company`, `role`, `need`, `budgetRange`, `timeline`, `sourcePage`, `sourceChannel`, `status` (`new`, `contacted`, `qualified`, `won`, `lost`), `notes`, `consentGivenAt`, `ipHash`. Public API access disabled (server-only via Local API).
   - **Acceptance Criteria**: Collection appears in Payload `/admin` and rejects unauthenticated public reads.
   - **Verification**: Schema compiles and type generation succeeds.
-  - **Evidence**: `[Agent to paste collection definition and admin screenshot]`
+  - **Evidence**: `leads` collection defined in `payload.config.ts` with strict server-only access control (`read/create/update/delete` restricted to authenticated admin user `Boolean(user)`), 14 fields (`name`, `email`, `whatsapp`, `company`, `role`, `need`, `budgetRange`, `timeline`, `sourcePage`, `sourceChannel`, `status` with 5 stages, `notes`, `consentGivenAt`, `ipHash`). TypeScript compilation passes with exit 0.
 
 - [ ] **`TASK-P4-02`**: Create `briefs` Payload Collection
   - **Phase / Gate**: P4 / G1
