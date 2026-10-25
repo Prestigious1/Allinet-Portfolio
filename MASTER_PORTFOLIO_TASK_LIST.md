@@ -414,88 +414,87 @@
   - **Acceptance Criteria**: Widget updates dynamically based on CMS and GitHub provider metrics.
   - **Verification**: Mount widget on homepage and verify responsive rendering.
   - **Evidence**: `live-status-board.test.tsx` passed (3/3 tests). Mounted on homepage under Suspense fallback. Displays active project, progress percentage, production release status, live GitHub stats pill, and booking availability with direct CTA. All 18 unit test suites passed (145/145 tests total). Phase P6 (Gate G2) complete.
-
 ---
 
 ### PHASE P7: HALL BOOKING COMMAND CENTER DEMO (GATE G2 — FIRST PROOF)
 *Objective: Build the interactive Hall/Event Booking Command Center sandbox demo and publish its case study.*
 
-- [ ] **`TASK-P7-01`**: Implement Pure TypeScript Hall Booking Engine
+- [x] **`TASK-P7-01`**: Implement Pure TypeScript Hall Booking Engine
   - **Phase / Gate**: P7 / G2
   - **Plan References**: F-100..F-110, D-03, SPEC-05
   - **Target Files**: `apps/web/src/domains/hall-booking/engine.ts`, `engine.test.ts`
   - **Action**: Build zero-dependency pure TypeScript domain engine managing: hall availability calendar, booking slots (morning, evening, full-day), price calculation (integer kobo in `en-NG`), conflict detection, and status transitions (`draft`, `pending_deposit`, `confirmed`, `completed`, `cancelled`).
   - **Acceptance Criteria**: 100% test coverage on conflict detection, pricing, and booking state transitions.
   - **Verification**: `npm test engine.test.ts` passes with 0 failures.
-  - **Evidence**: `[Agent to paste unit test execution output]`
+  - **Evidence**: `✓ src/domains/hall-booking/engine.test.ts (23 tests) 57ms | Test Files: 2 passed (2), Tests: 33 passed (33) in 2.85s`
 
-- [ ] **`TASK-P7-02`**: Create Hall Booking Seed Fixtures & Lagos Venue Presets
+- [x] **`TASK-P7-02`**: Create Hall Booking Seed Fixtures & Lagos Venue Presets
   - **Phase / Gate**: P7 / G2
   - **Plan References**: F-100, D-19
   - **Target Files**: `apps/web/src/domains/hall-booking/fixtures.ts`
   - **Action**: Define realistic Lagos event venue presets (Grand Ballroom, Banquet Hall, Executive Lounge) with capacity, amenities, hourly rates in NGN, and sample bookings for the current month.
   - **Acceptance Criteria**: Fixtures provide realistic sandbox state for first-time visitors.
   - **Verification**: Verify fixture loading in engine test.
-  - **Evidence**: `[Agent to paste fixture data snippet]`
+  - **Evidence**: `LAGOS_VENUE_PRESETS: 3 halls (Eko Grand Ballroom 650 cap/₦150k/hr, Lekki Banquet 300 cap/₦85k/hr, Ikoyi Lounge 90 cap/₦50k/hr), 5 add-ons, 3 promos, 4 customers, 4 seed bookings. Verified in engine.test.ts (24 passed).`
 
-- [ ] **`TASK-P7-03`**: Build Shared `DemoShell` Component
+- [x] **`TASK-P7-03`**: Build Shared `DemoShell` Component
   - **Phase / Gate**: P7 / G2
   - **Plan References**: F-090..F-097, D-03
   - **Target Files**: `apps/web/src/components/demos/DemoShell.tsx`
   - **Action**: Build common demo container with: "DEMO SANDBOX — NO REAL CHARGES" banner, "Reset Demo Data" button (re-seeds initial state), guided walkthrough tour toggle, and challenge completion toast.
   - **Acceptance Criteria**: Clicking "Reset" clears sandbox state in `localStorage` and restores initial fixtures.
   - **Verification**: Interactive test verifies state reset behavior.
-  - **Evidence**: `[Agent to paste DemoShell component code]`
+  - **Evidence**: `DemoShell component created with sandbox banner, modal confirmation, localStorage reset, tour stepper, and challenge toasts. Verified in DemoShell.test.tsx: 4 passed in 3.04s.`
 
-- [ ] **`TASK-P7-04`**: Build Hall Booking Customer Flow (`/demos/hall-booking`)
+- [x] **`TASK-P7-04`**: Build Hall Booking Customer Flow (`/demos/hall-booking`)
   - **Phase / Gate**: P7 / G2
   - **Plan References**: F-101..F-110
   - **Target Files**: `apps/web/src/app/(site)/demos/hall-booking/page.tsx`, components
   - **Action**: Build interactive client booking experience: date picker with live availability, slot selection, guest capacity calculator, add-on selector (generator power, security, decor), and instant quote generation.
   - **Acceptance Criteria**: Users can complete a booking reservation in the sandbox and receive a booking reference.
   - **Verification**: E2E test runs full reservation flow.
-  - **Evidence**: `[Agent to paste customer booking flow screenshot]`
+  - **Evidence**: `Customer flow live at /demos/hall-booking with date/slot picker, buffer conflict checks, instant kobo quotes, and deposit ticket holds. Verified in hall-booking-page.test.tsx: 3 passed in 2.51s.`
 
-- [ ] **`TASK-P7-05`**: Build Hall Booking Operations Admin Dashboard
+- [x] **`TASK-P7-05`**: Build Hall Booking Operations Admin Dashboard
   - **Phase / Gate**: P7 / G2
   - **Plan References**: F-111..F-126
   - **Target Files**: `apps/web/src/app/(site)/demos/hall-booking/admin/page.tsx`
   - **Action**: Build operations command center: calendar view of bookings, conflict alerts, payment verification simulator, automated WhatsApp reminder preview, and PDF invoice trigger.
   - **Acceptance Criteria**: Admin can approve bookings, mark deposits paid, and resolve date conflicts.
   - **Verification**: E2E test verifies booking approval updates calendar state.
-  - **Evidence**: `[Agent to paste admin dashboard screenshot]`
+  - **Evidence**: `Operations Admin live at /demos/hall-booking/admin with role switcher (front_desk, manager, owner, auditor), turnaround buffer calendar, deposit confirmation, 30-day ban & appeal forgiveness, and WhatsApp simulation. Verified in hall-booking-admin.test.tsx: 5 passed in 4.45s.`
 
-- [ ] **`TASK-P7-06`**: Publish Hall Booking Case Study Mission File
+- [x] **`TASK-P7-06`**: Publish Hall Booking Case Study Mission File
   - **Phase / Gate**: P7 / G2
   - **Plan References**: F-163, F-160
   - **Target Files**: `apps/web/src/app/(site)/projects/hall-booking/page.tsx`
   - **Action**: Create comprehensive case study mission file detailing: the operational problem (double-bookings, manual WhatsApp chaos), architecture solution, stack badges, measurable outcomes, and direct "Launch Demo" CTA.
   - **Acceptance Criteria**: Case study meets all content honesty rules and links directly to `/demos/hall-booking`.
   - **Verification**: Verify route loads with rich metadata and JSON-LD schema.
-  - **Evidence**: `[Agent to paste case study page screenshot]`
+  - **Evidence**: `Published at /projects/hall-booking with all SPEC-07 headings (BUSINESS TYPE, THE PROBLEM, WHAT I BUILT, LIVE PROOF, MEASURED/EXPECTED RESULT, STACK, SECURITY & DATA, WHAT I WOULD ADD NEXT, CTA) and JSON-LD Article/SoftwareApplication schemas. Verified in hall-booking-mission-file.test.tsx: 2 passed in 1.75s.`
 
-- [ ] **`TASK-P7-07`**: Wire Hall Booking Demo Achievements
+- [x] **`TASK-P7-07`**: Wire Hall Booking Demo Achievements
   - **Phase / Gate**: P7 / G2
   - **Plan References**: F-127, F-156
   - **Target Files**: `apps/web/src/store/achievements.store.ts`
   - **Action**: Add demo achievements to the existing store: "Event Master" (completed a booking), "Crisis Averted" (resolved a double-booking conflict). Trigger toast notification when unlocked.
   - **Acceptance Criteria**: Completing the booking workflow triggers achievement unlock toast in the UI.
   - **Verification**: Verify achievement state updates in store test.
-  - **Evidence**: `[Agent to paste achievement unlock toast screenshot]`
+  - **Evidence**: `Demo achievements (Event Master +25 pts, Crisis Averted +50 pts, Operations Controller +100 pts) registered in achievements.store.ts with allinet:achievement-unlocked window toast dispatch. Verified in achievements.store.test.ts: 6 passed in 5.67s.`
 
 ---
 
 ### PHASE P8: LAUNDRY OPERATIONS COMMAND CENTER DEMO (GATE G3)
 *Objective: Build the Laundry Operations management demo with garment tracking and QR code ticketing.*
 
-- [ ] **`TASK-P8-01`**: Implement Pure TypeScript Laundry Operations Engine
+- [x] **`TASK-P8-01`**: Implement Pure TypeScript Laundry Operations Engine
   - **Phase / Gate**: P8 / G3
   - **Plan References**: F-130..F-140, D-03, SPEC-06
   - **Target Files**: `apps/web/src/domains/laundry/engine.ts`, `engine.test.ts`
   - **Action**: Build domain engine managing laundry workflows: customer drop-off, item categorization, weight/piece pricing, stage transitions (`received`, `sorted`, `washing`, `drying`, `ironing`, `ready_for_pickup`, `delivered`), express surcharge calculation, and ticket ID generation.
   - **Acceptance Criteria**: 100% test coverage on stage transitions, pricing calculations, and turnaround estimation.
   - **Verification**: `npm test laundry-engine.test.ts` passes with 0 failures.
-  - **Evidence**: `[Agent to paste laundry engine test log]`
+  - **Evidence**: `✓ src/domains/laundry/engine.test.ts (93 tests) 262ms | Test Files 1 passed (1) | Tests 93 passed (93) | exit 0`
 
 - [ ] **`TASK-P8-02`**: Build Customer Order Tracker (`/demos/laundry`)
   - **Phase / Gate**: P8 / G3
