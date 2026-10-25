@@ -279,14 +279,14 @@
   - **Verification**: Existing `ProjectsApp` continues to render projects cleanly.
   - **Evidence**: Additive optional fields (`businessType`, `problem`, `solution`, `result`, `resultKind`, `architectureNote`, `caseStudyEnabled`) and `beforeChange` publish-gate validation hook added to `projects` in `payload.config.ts`. All 49 unit and integration tests continue to pass without error, and `tsc --noEmit` exits 0.
 
-- [ ] **`TASK-P4-07`**: Implement `LeadService` (`core/leads/LeadService.ts`)
+- [x] **`TASK-P4-07`**: Implement `LeadService` (`core/leads/LeadService.ts`)
   - **Phase / Gate**: P4 / G1
   - **Plan References**: Section 8.4, F-283
   - **Target Files**: `apps/web/src/core/leads/LeadService.ts`
   - **Action**: Build service to create leads via Payload Local API, sanitize email addresses, deduplicate by IP/email within 24 hours, and dispatch notification emails to owner via `services.email`.
   - **Acceptance Criteria**: Calling `createLead()` writes record to `leads` and triggers notification without throwing if email fails.
   - **Verification**: Unit tests for `LeadService` pass mocking Payload Local API.
-  - **Evidence**: `[Agent to paste LeadService test results]`
+  - **Evidence**: `apps/web/src/core/leads/LeadService.ts` implemented with `createLead`, `sanitizeEmail`, 24h deduplication, and safe non-blocking owner email notifications. 4 unit tests in `src/tests/unit/lead-service.test.ts` pass verifying sanitization, creation, deduplication, and email fault tolerance.
 
 - [ ] **`TASK-P4-08`**: Create Automated Database Seed Script (`scripts/seed.ts`)
   - **Phase / Gate**: P4 / G1
