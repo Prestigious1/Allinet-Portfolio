@@ -355,6 +355,29 @@ export default buildConfig({
         { name: 'consentGivenAt', type: 'date', admin: { description: 'Timestamp when contact consent was given.' } },
         { name: 'ipHash', type: 'text', admin: { description: 'Anonymized hash of client IP.' } },
       ],
+    },
+    {
+      slug: 'briefs',
+      admin: { useAsTitle: 'businessName' },
+      access: {
+        read: ({ req: { user } }: any) => Boolean(user),
+        create: ({ req: { user } }: any) => Boolean(user),
+        update: ({ req: { user } }: any) => Boolean(user),
+        delete: ({ req: { user } }: any) => Boolean(user),
+      },
+      fields: [
+        { name: 'lead', type: 'relationship', relationTo: 'leads', admin: { description: 'Linked lead submission if available.' } },
+        { name: 'organizationType', type: 'text', admin: { description: 'Type of organization (e.g. Startup, Enterprise, SME).' } },
+        { name: 'businessName', type: 'text', required: true, admin: { description: 'Name of the business or project.' } },
+        { name: 'problem', type: 'textarea', required: true, admin: { description: 'Core problem statement or project requirements.' } },
+        { name: 'currentTools', type: 'text', admin: { description: 'Tools and tech currently used.' } },
+        { name: 'modules', type: 'json', admin: { description: 'Selected project scope modules.' } },
+        { name: 'locationsCount', type: 'number', admin: { description: 'Number of locations or branches involved.' } },
+        { name: 'timeline', type: 'text', admin: { description: 'Desired launch timeline.' } },
+        { name: 'budgetRange', type: 'text', admin: { description: 'Target budget range.' } },
+        { name: 'generatedProposal', type: 'json', admin: { description: 'Auto-generated proposal data structure.' } },
+        { name: 'shareTokenHash', type: 'text', admin: { description: 'Unique hash for unguessable client share link.' } },
+      ],
     }
   ],
 

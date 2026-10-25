@@ -234,14 +234,14 @@
   - **Verification**: Schema compiles and type generation succeeds.
   - **Evidence**: `leads` collection defined in `payload.config.ts` with strict server-only access control (`read/create/update/delete` restricted to authenticated admin user `Boolean(user)`), 14 fields (`name`, `email`, `whatsapp`, `company`, `role`, `need`, `budgetRange`, `timeline`, `sourcePage`, `sourceChannel`, `status` with 5 stages, `notes`, `consentGivenAt`, `ipHash`). TypeScript compilation passes with exit 0.
 
-- [ ] **`TASK-P4-02`**: Create `briefs` Payload Collection
+- [x] **`TASK-P4-02`**: Create `briefs` Payload Collection
   - **Phase / Gate**: P4 / G1
   - **Plan References**: Section 9.2, F-180
   - **Target Files**: `apps/web/payload.config.ts`
   - **Action**: Define `briefs` collection with relation to `leads`, `organizationType`, `businessName`, `problem`, `currentTools`, `modules`, `locationsCount`, `timeline`, `budgetRange`, `generatedProposal` (JSON), `shareTokenHash`.
   - **Acceptance Criteria**: Collection registered and visible in Payload Admin.
   - **Verification**: Local API creates and reads brief records successfully.
-  - **Evidence**: `[Agent to paste briefs collection config]`
+  - **Evidence**: `briefs` collection defined in `payload.config.ts` with relationship to `leads`, `organizationType`, `businessName`, `problem`, `currentTools`, `modules` (json), `locationsCount` (number), `timeline`, `budgetRange`, `generatedProposal` (json), and `shareTokenHash`. Access restricted to authenticated users. Validated via `tsc --noEmit` clean exit.
 
 - [ ] **`TASK-P4-03`**: Create `knowledge-items` Payload Collection
   - **Phase / Gate**: P4 / G1
