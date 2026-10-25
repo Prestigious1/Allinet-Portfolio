@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
-import { withApiMiddleware } from '@/core/api/middleware'
+import { withApiMiddleware, RATE_LIMIT_POLICIES } from '@/core/api/middleware'
 import { analyticsSchema } from '@/lib/validation'
 import { services } from '@/core/providers'
 
 export const POST = withApiMiddleware(
-  { rateLimitKey: 'api:analytics', rateLimitConfig: { limit: 100, windowMs: 60000 } }, // 100 per minute
+  { rateLimitKey: 'api:analytics', rateLimitConfig: RATE_LIMIT_POLICIES.analytics },
   async (req: Request) => {
     const body = await req.json()
     const data = analyticsSchema.parse(body)

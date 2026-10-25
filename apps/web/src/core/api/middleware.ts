@@ -2,13 +2,23 @@ import { NextResponse } from 'next/server'
 import { services } from '@/core/providers'
 import { z } from 'zod'
 
-interface ApiMiddlewareConfig {
+export interface ApiMiddlewareConfig {
   rateLimitKey: string
   rateLimitConfig?: {
     limit: number
     windowMs: number
   }
 }
+
+/**
+ * Standard rate limiting policies specified across all API surfaces.
+ */
+export const RATE_LIMIT_POLICIES = {
+  chat: { limit: 20, windowMs: 60 * 1000 }, // 20 req/min
+  contact: { limit: 5, windowMs: 10 * 60 * 1000 }, // 5 req/10min
+  leads: { limit: 5, windowMs: 10 * 60 * 1000 }, // 5 req/10min
+  analytics: { limit: 60, windowMs: 60 * 1000 }, // 60 req/min
+} as const
 
 /**
  * Standard API error structure.

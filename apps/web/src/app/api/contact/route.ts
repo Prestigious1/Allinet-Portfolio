@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
-import { withApiMiddleware } from '@/core/api/middleware'
+import { withApiMiddleware, RATE_LIMIT_POLICIES } from '@/core/api/middleware'
 import { contactSchema } from '@/lib/validation'
 import { services } from '@/core/providers'
 
 export const POST = withApiMiddleware(
-  { rateLimitKey: 'api:contact', rateLimitConfig: { limit: 3, windowMs: 3600000 } }, // 3 per hour
+  { rateLimitKey: 'api:contact', rateLimitConfig: RATE_LIMIT_POLICIES.contact },
   async (req: Request) => {
     const body = await req.json()
     

@@ -1,4 +1,4 @@
-import { withApiMiddleware } from '@/core/api/middleware'
+import { withApiMiddleware, RATE_LIMIT_POLICIES } from '@/core/api/middleware'
 import { services } from '@/core/providers'
 import { aionTools } from '@/lib/ai/tools'
 import { buildSystemPrompt } from '@/lib/ai/system-prompt'
@@ -8,7 +8,7 @@ import { convertToModelMessages } from 'ai'
 export const runtime = 'edge'
 
 export const POST = withApiMiddleware(
-  { rateLimitKey: 'api:ai:chat', rateLimitConfig: { limit: 10, windowMs: 60000 } },
+  { rateLimitKey: 'api:ai:chat', rateLimitConfig: RATE_LIMIT_POLICIES.chat },
   async (req: Request) => {
     const routeStart = Date.now()
     const reqId = 'SRV-' + routeStart + '-' + Math.random().toString(36).slice(2,6).toUpperCase()

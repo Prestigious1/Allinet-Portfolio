@@ -47,10 +47,12 @@ export class MemoryRateLimiter implements RateLimiterProvider {
   }
 
   getHeaders(remaining: number, resetAt: number): Record<string, string> {
+    const retryAfter = Math.max(1, Math.ceil((resetAt - Date.now()) / 1000))
     return {
       'X-RateLimit-Limit': 'true',
       'X-RateLimit-Remaining': remaining.toString(),
       'X-RateLimit-Reset': Math.floor(resetAt / 1000).toString(),
+      'Retry-After': retryAfter.toString(),
     }
   }
 }

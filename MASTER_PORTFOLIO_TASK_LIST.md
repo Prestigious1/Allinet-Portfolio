@@ -193,14 +193,14 @@
   - **Verification**: Automated test verifies 401 on unauthenticated write.
   - **Evidence**: `apps/web/src/tests/unit/api-security.test.ts` verified: GET and POST /api/ai/memory return 401 with `{ error: 'Unauthorized' }` on unauthenticated requests and invalid secret. 3 unit tests passing in Vitest.
 
-- [ ] **`TASK-P3-03`**: Enforce Distributed Rate Limiting Across All APIs
+- [x] **`TASK-P3-03`**: Enforce Distributed Rate Limiting Across All APIs
   - **Phase / Gate**: P3 / G1
   - **Plan References**: Section 10.1, Section 8
   - **Target Files**: `apps/web/src/core/api/middleware.ts`
   - **Action**: Apply rate-limiting policies: `/api/ai/chat` (20 req/min), `/api/contact` (5 req/10min), `/api/leads` (5 req/10min), `/api/analytics` (60 req/min). Ensure fallback to `MemoryRateLimiter` logs warnings in dev.
   - **Acceptance Criteria**: Exceeding rate limits returns `429 Too Many Requests` with retry headers.
   - **Verification**: Test script asserts 429 after threshold exceeded.
-  - **Evidence**: `[Agent to paste rate limiter test result]`
+  - **Evidence**: `RATE_LIMIT_POLICIES` configured in `src/core/api/middleware.ts` for chat (20/min), contact (5/10min), leads (5/10min), and analytics (60/min). `MemoryRateLimiter` and `UpstashRateLimiter` updated to supply `Retry-After`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers. 5 unit tests in `src/tests/unit/rate-limiter.test.ts` pass verifying 429 response, Retry-After header, remaining count decrement, and policy limits.
 
 - [ ] **`TASK-P3-04`**: Implement Cloudflare Turnstile Verification Helper
   - **Phase / Gate**: P3 / G1
