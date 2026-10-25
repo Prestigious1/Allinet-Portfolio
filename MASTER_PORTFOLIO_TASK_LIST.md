@@ -202,14 +202,14 @@
   - **Verification**: Test script asserts 429 after threshold exceeded.
   - **Evidence**: `RATE_LIMIT_POLICIES` configured in `src/core/api/middleware.ts` for chat (20/min), contact (5/10min), leads (5/10min), and analytics (60/min). `MemoryRateLimiter` and `UpstashRateLimiter` updated to supply `Retry-After`, `X-RateLimit-Remaining`, and `X-RateLimit-Reset` headers. 5 unit tests in `src/tests/unit/rate-limiter.test.ts` pass verifying 429 response, Retry-After header, remaining count decrement, and policy limits.
 
-- [ ] **`TASK-P3-04`**: Implement Cloudflare Turnstile Verification Helper
+- [x] **`TASK-P3-04`**: Implement Cloudflare Turnstile Verification Helper
   - **Phase / Gate**: P3 / G1
   - **Plan References**: D-18, F-266
   - **Target Files**: `apps/web/src/lib/turnstile.ts`
   - **Action**: Create server-side helper `verifyTurnstileToken(token: string, ip: string)` to validate bot challenges for public lead and brief submissions. Include dev-mode bypass when keys are unconfigured.
   - **Acceptance Criteria**: Helper returns `true` for valid tokens and fails closed in production for invalid tokens.
   - **Verification**: Unit tests verify valid, invalid, and dev bypass flows.
-  - **Evidence**: `[Agent to paste turnstile helper code and unit test]`
+  - **Evidence**: `apps/web/src/lib/turnstile.ts` implemented with `verifyTurnstileToken(token, ip)`. In dev/test without `TURNSTILE_SECRET_KEY`, verification bypasses with warning. In production, fails closed on missing secret or invalid tokens. Verified by 6/6 passing unit tests in `src/tests/unit/turnstile.test.ts`.
 
 - [ ] **`TASK-P3-05`**: Implement `track()` Analytics Abstraction
   - **Phase / Gate**: P3 / G1
