@@ -1,7 +1,24 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
+/**
+ * Auth guard: require the caller to supply the server-to-server secret.
+ * Public unauthenticated calls are rejected with 401.
+ *
+ * Expected header: `x-api-secret: <PAYLOAD_SECRET>`
+ */
+function isAuthorized(req: Request): boolean {
+  const secret = process.env.PAYLOAD_SECRET
+  if (!secret) return false
+  const provided = req.headers.get('x-api-secret') || req.headers.get('x-payload-secret')
+  return provided === secret
+}
+
 export async function POST(req: Request) {
+  if (!isAuthorized(req)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const { to, from, subject, body, isHtml } = await req.json()
 
