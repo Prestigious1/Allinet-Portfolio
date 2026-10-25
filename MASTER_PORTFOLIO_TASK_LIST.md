@@ -11,11 +11,11 @@
 | Metric | Count | Status / Notes |
 |---|---|---|
 | **Total Tasks** | **71** | Structured across 14 sequential phases (P0 to P13) |
-| **Completed Tasks (`[x]`)** | **48** | Phases P0 through P8-03 complete and verified |
-| **In-Progress Tasks (`[/]`)** | **0** | Next active task: `TASK-P8-04` |
+| **Completed Tasks (`[x]`)** | **49** | Phases P0 through P8-04 complete and verified |
+| **In-Progress Tasks (`[/]`)** | **0** | Next active task: `TASK-P9-01` |
 | **Blocked Tasks (`[!]`)** | **0** | No external blockers |
-| **Pending Tasks (`[ ]`)** | **23** | Ready in backlog |
-| **Active Ship Gate** | **Gate G3: Breadth & Automation** | P8-01..P8-03 complete; P8-04 next |
+| **Pending Tasks (`[ ]`)** | **22** | Ready in backlog |
+| **Active Ship Gate** | **Gate G3: Breadth & Automation** | Phase P8 complete; P9-01 next |
 | **Default Route Mode** | `HOME_MODE=os` | OS active at `/` until Gate G2 release flip |
 
 ### Status Notation
@@ -514,14 +514,14 @@
   - **Verification**: E2E test asserts stage transition updates customer view.
   - **Evidence**: `apps/web/src/app/(site)/demos/laundry/admin/page.tsx` (1,006 lines) implements operations metrics panel (`OperationsPanel`), deterministic QR bag tag generator with SVG barcode modal (`BagTagModal`, `QRCodeSVG`), rapid intake modal (`RapidIntakeForm`), drag-and-drop Kanban stage manager (`KanbanColumn`, `KanbanCard`), and delayed-order alert flags (`DelayedOrdersBanner`). Verified with unit test suite `apps/web/src/tests/unit/laundry-admin.test.tsx` (5 tests passing). TypeScript `tsc --noEmit` exited code 0 (zero errors). Full test suite passed (27 test files, 291 tests).
 
-- [ ] **`TASK-P8-04`**: Publish Laundry Operations Case Study Mission File
+- [x] **`TASK-P8-04`**: Publish Laundry Operations Case Study Mission File
   - **Phase / Gate**: P8 / G3
   - **Plan References**: F-164
   - **Target Files**: `apps/web/src/app/(site)/projects/laundry-operations/page.tsx`
   - **Action**: Create comprehensive case study documenting garment loss prevention, automated customer pickup notifications, workflow metrics, and live demo link.
   - **Acceptance Criteria**: Published case study with structured data schema and verified content.
   - **Verification**: Verify route HTTP 200 and schema validation.
-  - **Evidence**: `[Agent to paste case study link]`
+  - **Evidence**: `apps/web/src/app/(site)/projects/laundry-operations/page.tsx` (305 lines) published implementing SPEC-07 case study structure: 60-second read badge, Business Type, Problem, What I Built, Live Proof (`/demos/laundry`), Measured/Expected Results (0% loss, <30s intake, 100% visibility), Stack, Security & Data, What I Would Add Next, and dual JSON-LD schemas (`Article` and `SoftwareApplication`). Verified with unit test suite `apps/web/src/tests/unit/laundry-operations-mission-file.test.tsx` (2 tests passed). TypeScript `tsc --noEmit` exited code 0 (zero errors). Route builds cleanly without warnings.
 
 ---
 
