@@ -397,14 +397,14 @@
   - **Verification**: Seed test changelog entry and confirm rendering.
   - **Evidence**: `changelog-page.test.tsx` passed (2/2 tests). Renders chronological version releases, category badges (major, feature, improvement, fix), dates in <time dateTime>, and descriptions from `changelog` collection with fallback service. All 16 unit test suites passed (138/138 tests total).
 
-- [ ] **`TASK-P6-03`**: Implement `/api/health` System Diagnostic Route
+- [x] **`TASK-P6-03`**: Implement `/api/health` System Diagnostic Route
   - **Phase / Gate**: P6 / G2
   - **Plan References**: F-202, SPEC-04
   - **Target Files**: `apps/web/src/app/api/health/route.ts`
   - **Action**: Create cached health check endpoint (60s TTL) probing: database connectivity, CMS read status, AI gateway configuration, and GitHub provider status.
   - **Acceptance Criteria**: Returns `200 OK` with JSON `{ status: "healthy", services: { ... } }`.
   - **Verification**: `curl http://localhost:3000/api/health` returns valid JSON payload.
-  - **Evidence**: `[Agent to paste health endpoint response]`
+  - **Evidence**: `health-route.test.ts` passed (4/4 tests). Returns HTTP 200 with `{ status: "healthy", uptimeSeconds, services: { database, cms, aiGateway, github } }`. Caches response for 60s with `Cache-Control: public, max-age=60`, enforces rate limit (60 req/min), and guarantees zero secrets/keys leaked in response payload. All 17 unit test suites passed (142/142 tests total).
 
 - [ ] **`TASK-P6-04`**: Build Homepage Live Status Board Widget
   - **Phase / Gate**: P6 / G2

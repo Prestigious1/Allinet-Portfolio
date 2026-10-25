@@ -17,7 +17,15 @@ export class HybridGitHubProvider implements GitHubProvider {
       return this.cache
     }
 
-    const res = await fetch(`/api/github?username=${encodeURIComponent(username)}`)
+    const origin =
+      typeof window !== 'undefined' &&
+      window.location &&
+      window.location.origin &&
+      window.location.origin !== 'null' &&
+      !window.location.origin.startsWith('about:')
+        ? window.location.origin
+        : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000')
+    const res = await fetch(`${origin}/api/github?username=${encodeURIComponent(username)}`)
     const data = await res.json()
 
     if (!res.ok) {

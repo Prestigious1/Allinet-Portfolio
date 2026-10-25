@@ -18,6 +18,7 @@ export const RATE_LIMIT_POLICIES = {
   contact: { limit: 5, windowMs: 10 * 60 * 1000 }, // 5 req/10min
   leads: { limit: 5, windowMs: 10 * 60 * 1000 }, // 5 req/10min
   analytics: { limit: 60, windowMs: 60 * 1000 }, // 60 req/min
+  health: { limit: 60, windowMs: 60 * 1000 }, // 60 req/min
 } as const
 
 /**
