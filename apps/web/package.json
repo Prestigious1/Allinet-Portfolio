@@ -10,7 +10,8 @@
     "test": "set VITE_CONFIG_NATIVE_IGNORE_WARNING=true && vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "seed:knowledge": "tsx scripts/seed-knowledge.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "4.0.18",
@@ -38,6 +39,7 @@
     "next": "16.2.10",
     "openai": "^6.48.0",
     "payload": "^3.86.0",
+    "pdf-lib": "^1.17.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.91.0",
@@ -50,6 +52,7 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
     "@playwright/test": "^1.64.1",
     "@rolldown/binding-win32-x64-msvc": "^1.2.15",
     "@tailwindcss/postcss": "^4",

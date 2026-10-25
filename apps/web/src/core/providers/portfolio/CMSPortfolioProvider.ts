@@ -453,9 +453,10 @@ export class CMSPortfolioProvider implements PortfolioProvider {
 
   async getDesktopApps(): Promise<DesktopAppData[]> {
     try {
+      const seedApps = await this.fallback.getDesktopApps()
       const data = await cmsGet<any>('/desktop-apps?limit=100')
       if (data?.docs?.length) {
-        return data.docs.map((doc: any): DesktopAppData => ({
+        const cmsApps = data.docs.map((doc: any): DesktopAppData => ({
           id: String(doc.id),
           appId: doc.app_id,
           label: doc.label,
@@ -469,6 +470,9 @@ export class CMSPortfolioProvider implements PortfolioProvider {
           desktopPosition: doc.desktop_position ?? null,
           dockPosition: doc.dock_position ?? null,
         }))
+        const cmsAppIds = new Set(cmsApps.map((a: DesktopAppData) => a.appId))
+        const missingSeedApps = seedApps.filter((a: DesktopAppData) => !cmsAppIds.has(a.appId))
+        return [...cmsApps, ...missingSeedApps]
       }
 
       const hasAny = await cmsCollectionHasContent('/desktop-apps')

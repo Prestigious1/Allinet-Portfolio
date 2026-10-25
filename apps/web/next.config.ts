@@ -13,12 +13,12 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://vercel.live",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://vercel.live https://va.vercel-scripts.com",
               "worker-src 'self' blob:",
               "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com",
               "img-src 'self' blob: data: https://res.cloudinary.com https://avatars.githubusercontent.com https://*.supabase.co",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' blob: data: https://api.github.com wss://ws.pusherapp.com https://*.upstash.io https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://*.supabase.co",
+              "connect-src 'self' blob: data: https://api.github.com wss://ws.pusherapp.com https://*.upstash.io https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://*.supabase.co https://va.vercel-scripts.com https://vitals.vercel-insights.com",
               "frame-src 'self' https://www.youtube.com",
               "media-src 'self' blob: data: https://*.supabase.co"
             ].join('; '),
