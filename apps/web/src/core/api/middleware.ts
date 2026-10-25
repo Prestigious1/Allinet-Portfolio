@@ -15,8 +15,10 @@ export interface ApiMiddlewareConfig {
  */
 export const RATE_LIMIT_POLICIES = {
   chat: { limit: 20, windowMs: 60 * 1000 }, // 20 req/min
+  concierge: { limit: 20, windowMs: 60 * 1000 }, // 20 req/min (TASK-P9-01)
   contact: { limit: 5, windowMs: 10 * 60 * 1000 }, // 5 req/10min
   leads: { limit: 5, windowMs: 10 * 60 * 1000 }, // 5 req/10min
+  brief: { limit: 3, windowMs: 10 * 60 * 1000 }, // 3 req/10min (SPEC-08)
   analytics: { limit: 60, windowMs: 60 * 1000 }, // 60 req/min
   health: { limit: 60, windowMs: 60 * 1000 }, // 60 req/min
 } as const

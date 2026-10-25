@@ -18,6 +18,8 @@ const APP_TITLES: Record<string, string> = {
   education: 'Education',
   certificates: 'Certificates',
   testimonials: 'Testimonials',
+  timeline: 'Career Timeline',
+  music: 'Music Player',
 }
 
 export interface ContextMenuItem {
@@ -177,10 +179,9 @@ export const useOSStore = create<OSState>((set, get) => ({
 
   focusWindow: (id) => {
     set((state) => {
-      if (state.activeWindowId === id) return state
-      
       const window = state.windows[id]
       if (!window) return state
+      if (state.activeWindowId === id && !window.isMinimized) return state
 
       return {
         windows: {

@@ -73,6 +73,7 @@ export default function WindowManager() {
         { default: EducationApp },
         { default: CertificatesApp },
         { default: TestimonialsApp },
+        { default: MusicApp },
       ] = await Promise.all([
         import('@/apps/AboutApp'),
         import('@/apps/TerminalApp'),
@@ -90,6 +91,7 @@ export default function WindowManager() {
         import('@/apps/EducationApp'),
         import('@/apps/CertificatesApp'),
         import('@/apps/TestimonialsApp'),
+        import('@/apps/MusicApp'),
       ])
       setAppRegistry({
         about: AboutApp,
@@ -108,6 +110,7 @@ export default function WindowManager() {
         education: EducationApp,
         certificates: CertificatesApp,
         testimonials: TestimonialsApp,
+        music: MusicApp,
       })
       setAppsLoaded(true)
     }
@@ -356,7 +359,11 @@ export default function WindowManager() {
                 onDoubleClick={() => !isMobile && maximizeWindow(id)}
               >
                 {/* Traffic Light Buttons */}
-                <div className="flex items-center space-x-2 mr-4 relative z-10">
+                <div 
+                  className="flex items-center space-x-2 mr-4 relative z-10"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onTouchStart={(e) => e.stopPropagation()}
+                >
                   <button
                     className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 transition-colors flex items-center justify-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
                     onClick={(e) => { e.stopPropagation(); closeWindow(id) }}

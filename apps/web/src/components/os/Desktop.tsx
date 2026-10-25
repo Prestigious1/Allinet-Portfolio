@@ -38,6 +38,12 @@ export default function Desktop() {
   // ── Konami Code Easter Egg & Keyboard Shortcuts ──
   const konamiBuffer = useRef<string[]>([])
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      (window as any).useOSStore = useOSStore
+    }
+  }, [])
+
+  useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       // ⌘K or Ctrl+K → Command Palette
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {

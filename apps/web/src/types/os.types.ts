@@ -15,6 +15,8 @@ export type AppId =
   | 'education'
   | 'certificates'
   | 'testimonials'
+  | 'timeline'
+  | 'music'
 
 export interface Position {
   x: number

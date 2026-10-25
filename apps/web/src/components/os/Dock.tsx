@@ -50,7 +50,6 @@ function DockIcon({
         onContextMenu={onContextMenu}
         title={app.label}
         aria-label={app.label}
-        role="menuitem"
       >
         {/* Icon background */}
         <div

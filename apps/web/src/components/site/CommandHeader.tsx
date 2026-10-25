@@ -40,7 +40,6 @@ export function CommandHeader() {
             <Link
               href="/"
               id="site-header-brand"
-              aria-label="ALLINET Command Center — Home"
               className="flex items-center gap-3 group focus-visible:outline-none"
             >
               {/* Hexagonal logo mark */}
@@ -114,6 +113,23 @@ export function CommandHeader() {
 
             {/* ── Desktop CTAs ── */}
             <div className="hidden md:flex items-center gap-2">
+              {/* Command Palette Trigger */}
+              <button
+                type="button"
+                id="site-header-search-btn"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('open-site-command-palette'))
+                  }
+                }}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-700/80 bg-slate-850/60 hover:bg-slate-800 text-slate-300 text-xs transition-colors duration-200"
+                aria-label="Search ⌘K"
+              >
+                <span className="text-amber-400 text-sm">⌕</span>
+                <span className="hidden xl:inline text-slate-400">Search</span>
+                <kbd className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-[10px] text-slate-400 font-mono">⌘K</kbd>
+              </button>
+
               {/* Availability pill */}
               <span
                 id="site-header-availability"
@@ -131,7 +147,7 @@ export function CommandHeader() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 rounded-xl text-sm font-medium border border-amber-500/30 text-amber-300 bg-amber-500/5 hover:bg-amber-500/15 hover:border-amber-400/50 transition-all duration-200"
-                aria-label="Book a 15-minute discovery call"
+                aria-label="Book 15-min call — 15 minute discovery call"
               >
                 Book 15-min call
               </a>
@@ -141,7 +157,7 @@ export function CommandHeader() {
                 id="site-header-cta-primary"
                 href="/contact"
                 className="px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 text-black hover:from-amber-400 hover:to-amber-500 transition-all duration-200 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30"
-                aria-label="Start a project with ALLINET"
+                aria-label="Start a project with ALLINET — get in touch"
               >
                 Start a project
               </Link>

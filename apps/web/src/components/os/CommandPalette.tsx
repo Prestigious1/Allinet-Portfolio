@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useOSStore } from '@/store/os.store'
 import { AppId } from '@/types/os.types'
 
+import { getAllCommands } from '@/core/commands/registry'
+
 interface CommandEntry {
   id: string
   label: string
@@ -66,7 +68,25 @@ export default function CommandPalette() {
       keywords: [app.appId, app.label.toLowerCase()],
     }))
 
-  const commands = [...appCommands, ...baseCommands]
+  const sharedCommands: CommandEntry[] = getAllCommands()
+    .filter(cmd => !baseCommands.some(b => b.id === cmd.id))
+    .map(cmd => ({
+      id: cmd.id,
+      label: cmd.title,
+      description: cmd.description || '',
+      icon: cmd.icon,
+      category: cmd.group === 'System' ? 'System' : 'Action',
+      action: () => {
+        cmd.run({
+          setTheme: (t) => setTheme(t as any),
+          openApp: (appId) => openApp(appId as AppId),
+          close: closeCommandPalette,
+        })
+      },
+      keywords: cmd.keywords,
+    }))
+
+  const commands = [...appCommands, ...baseCommands, ...sharedCommands]
 
   const filteredCommands = query.trim() === ''
     ? commands

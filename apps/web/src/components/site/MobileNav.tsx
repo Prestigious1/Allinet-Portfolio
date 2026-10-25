@@ -134,7 +134,7 @@ export function MobileNav({ open, onClose, navLinks }: MobileNavProps) {
             rel="noopener noreferrer"
             onClick={onClose}
             className="block text-center px-4 py-3 rounded-xl text-sm font-medium border border-amber-500/30 text-amber-300 bg-amber-500/5 hover:bg-amber-500/15 transition-all duration-150"
-            aria-label="Book a 15-minute discovery call"
+            aria-label="Book 15-min call — 15 minute discovery call"
           >
             Book 15-min call
           </a>
@@ -145,7 +145,7 @@ export function MobileNav({ open, onClose, navLinks }: MobileNavProps) {
             href="/contact"
             onClick={onClose}
             className="block text-center px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-amber-500 to-amber-600 text-black hover:from-amber-400 hover:to-amber-500 transition-all duration-200 shadow-lg shadow-amber-500/20"
-            aria-label="Start a project with ALLINET"
+            aria-label="Start a project with ALLINET — get in touch"
           >
             Start a project
           </Link>

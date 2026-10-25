@@ -121,7 +121,6 @@ export const DemoShell: React.FC<DemoShellProps> = ({
           <button
             type="button"
             id="btn-reset-demo"
-            aria-label="Reset demo sandbox"
             onClick={() => setResetConfirmOpen(true)}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 transition-colors"
           >
