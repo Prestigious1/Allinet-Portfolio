@@ -211,14 +211,14 @@
   - **Verification**: Unit tests verify valid, invalid, and dev bypass flows.
   - **Evidence**: `apps/web/src/lib/turnstile.ts` implemented with `verifyTurnstileToken(token, ip)`. In dev/test without `TURNSTILE_SECRET_KEY`, verification bypasses with warning. In production, fails closed on missing secret or invalid tokens. Verified by 6/6 passing unit tests in `src/tests/unit/turnstile.test.ts`.
 
-- [ ] **`TASK-P3-05`**: Implement `track()` Analytics Abstraction
+- [x] **`TASK-P3-05`**: Implement `track()` Analytics Abstraction
   - **Phase / Gate**: P3 / G1
   - **Plan References**: D-06, F-261, F-290
   - **Target Files**: `apps/web/src/core/tracking/track.ts`
   - **Action**: Create centralized `track(event, properties)` wrapper that forwards to `services.analytics` without collecting PII. Supports whitelist of event names: `role_selected`, `demo_opened`, `brief_started`, `contact_submitted`.
   - **Acceptance Criteria**: Calls to `track()` with unauthorized properties drop non-whitelisted fields.
   - **Verification**: Unit tests assert event whitelisting and non-blocking execution.
-  - **Evidence**: `[Agent to paste tracking test results]`
+  - **Evidence**: `apps/web/src/core/tracking/track.ts` implemented with `WHITELISTED_EVENTS`, PII stripping blocklist, authorized property filtering, and non-blocking fire-and-forget execution. 6/6 unit tests in `src/tests/unit/track.test.ts` pass verifying event forwarding, property sanitization, PII stripping, dropping invalid events, and error safety.
 
 ---
 
