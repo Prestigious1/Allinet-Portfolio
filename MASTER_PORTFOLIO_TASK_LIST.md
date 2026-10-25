@@ -388,14 +388,14 @@
   - **Verification**: Update CMS global and verify `/now` page reflects changes.
   - **Evidence**: `now-page.test.tsx` passed (5/5 tests). Renders active project, milestone, progress bar (0-100%), capacity indicator, learning topics, and live GitHub feed. `isStatusStale()` validates timestamps and shows alert banner when older than 30 days. All 15 unit test suites passed (136/136 tests total).
 
-- [ ] **`TASK-P6-02`**: Build `/changelog` Product Updates Page
+- [x] **`TASK-P6-02`**: Build `/changelog` Product Updates Page
   - **Phase / Gate**: P6 / G2
   - **Plan References**: F-024, F-201, F-311
   - **Target Files**: `apps/web/src/app/(site)/changelog/page.tsx`
   - **Action**: Render chronological list of version updates, features released, and fixes from Payload `changelog` collection.
   - **Acceptance Criteria**: Displays version badges, dates, and categorized release notes.
   - **Verification**: Seed test changelog entry and confirm rendering.
-  - **Evidence**: `[Agent to paste changelog test confirmation]`
+  - **Evidence**: `changelog-page.test.tsx` passed (2/2 tests). Renders chronological version releases, category badges (major, feature, improvement, fix), dates in <time dateTime>, and descriptions from `changelog` collection with fallback service. All 16 unit test suites passed (138/138 tests total).
 
 - [ ] **`TASK-P6-03`**: Implement `/api/health` System Diagnostic Route
   - **Phase / Gate**: P6 / G2
