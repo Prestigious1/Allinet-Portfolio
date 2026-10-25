@@ -406,14 +406,14 @@
   - **Verification**: `curl http://localhost:3000/api/health` returns valid JSON payload.
   - **Evidence**: `health-route.test.ts` passed (4/4 tests). Returns HTTP 200 with `{ status: "healthy", uptimeSeconds, services: { database, cms, aiGateway, github } }`. Caches response for 60s with `Cache-Control: public, max-age=60`, enforces rate limit (60 req/min), and guarantees zero secrets/keys leaked in response payload. All 17 unit test suites passed (142/142 tests total).
 
-- [ ] **`TASK-P6-04`**: Build Homepage Live Status Board Widget
+- [x] **`TASK-P6-04`**: Build Homepage Live Status Board Widget
   - **Phase / Gate**: P6 / G2
   - **Plan References**: F-045, F-046
   - **Target Files**: `apps/web/src/components/site/LiveStatusBoard.tsx`
   - **Action**: Build compact status strip on the homepage displaying current project focus, deployment timestamp, GitHub activity pill, and booking status.
   - **Acceptance Criteria**: Widget updates dynamically based on CMS and GitHub provider metrics.
   - **Verification**: Mount widget on homepage and verify responsive rendering.
-  - **Evidence**: `[Agent to paste status board screenshot]`
+  - **Evidence**: `live-status-board.test.tsx` passed (3/3 tests). Mounted on homepage under Suspense fallback. Displays active project, progress percentage, production release status, live GitHub stats pill, and booking availability with direct CTA. All 18 unit test suites passed (145/145 tests total). Phase P6 (Gate G2) complete.
 
 ---
 

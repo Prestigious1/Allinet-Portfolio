@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { RolePicker } from '@/features/role/RolePicker'
+import { LiveStatusBoard } from '@/components/site/LiveStatusBoard'
 
 export const metadata: Metadata = {
   title: 'Ajibade Alli Akinkunmi — Senior Full-Stack & Systems Architect',
@@ -27,10 +28,22 @@ export default function SiteHomePage() {
         <span className="gold-gradient-text">Deterministic Engineering</span>
       </h1>
 
-      <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mb-12 leading-relaxed">
+      <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mb-8 leading-relaxed">
         High-impact web architectures, multi-tenant SaaS engines, and interactive experiences
         crafted by Ajibade Alli Akinkunmi.
       </p>
+
+      {/* Live status board */}
+      <Suspense
+        fallback={
+          <div
+            id="live-status-board-skeleton"
+            className="w-full max-w-4xl h-20 my-8 mx-auto rounded-2xl bg-slate-900/40 animate-pulse border border-slate-800"
+          />
+        }
+      >
+        <LiveStatusBoard />
+      </Suspense>
 
       {/* Role picker */}
       <div className="w-full max-w-2xl mb-12">
