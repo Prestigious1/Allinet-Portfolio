@@ -323,7 +323,7 @@ const ITEM_STAGE_TRANSITIONS: Record<ItemStage, ItemStage[]> = {
 // ---------------------------------------------------------------------------
 
 const ORDER_STATUS_TRANSITIONS: Record<OrderStatus, OrderStatus[]> = {
-  draft:               ['pickup_scheduled', 'cancelled'],
+  draft:               ['pickup_scheduled', 'received', 'cancelled'],
   pickup_scheduled:    ['picked_up', 'cancelled'],
   picked_up:           ['received', 'cancelled'],
   received:            ['sorted', 'lost_damaged', 'cancelled'],

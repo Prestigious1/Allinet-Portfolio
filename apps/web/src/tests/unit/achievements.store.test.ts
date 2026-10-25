@@ -1,6 +1,10 @@
 // achievements.store.test.ts
-import { beforeEach, describe, expect, it } from 'vitest';
-import { useAchievementsStore, Achievement } from '@/store/achievements.store';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  useAchievementsStore,
+  Achievement,
+  PORTFOLIO_ACHIEVEMENTS,
+} from '@/store/achievements.store';
 
 const sampleAchievements: Achievement[] = [
   {
@@ -69,5 +73,26 @@ describe('Achievements Store (useAchievementsStore)', () => {
     // The most recent unlock should be first‑blood (last unlocked)
     expect(unlocked[0].id).toBe('first-blood');
     expect(unlocked[1].id).toBe('master');
+  });
+
+  it('contains predefined demo achievements (Event Master, Crisis Averted, Operations Controller)', () => {
+    const ids = PORTFOLIO_ACHIEVEMENTS.map((a) => a.id);
+    expect(ids).toContain('event-master');
+    expect(ids).toContain('crisis-averted');
+    expect(ids).toContain('operations-controller');
+  });
+
+  it('dispatches allinet:achievement-unlocked event on window when unlocked', () => {
+    const eventSpy = vi.fn();
+    window.addEventListener('allinet:achievement-unlocked', eventSpy);
+
+    useAchievementsStore.getState().registerAchievements(PORTFOLIO_ACHIEVEMENTS);
+
+    const unlocked = useAchievementsStore.getState().unlockAchievement('event-master');
+    expect(unlocked).toBe(true);
+    expect(eventSpy).toHaveBeenCalledTimes(1);
+    expect((eventSpy.mock.calls[0][0] as CustomEvent).detail.title).toBe('Event Master');
+
+    window.removeEventListener('allinet:achievement-unlocked', eventSpy);
   });
 });

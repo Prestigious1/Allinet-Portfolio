@@ -40,7 +40,7 @@ const EDUCATION = [
   {
     degree: 'B.Sc. Computer Science',
     institution: 'University of Lagos',
-    period: '2016 — 2020',
+    period: '2022 — 2026',
     note: 'Second Class Upper Honours',
   },
 ]
@@ -81,18 +81,19 @@ export default function CVPage() {
             hello@allinet.dev
           </a>
         </div>
-        <a
+        <Link
           id="cv-download-pdf"
           href="/api/cv/download"
+          prefetch={false}
           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-black font-semibold shadow-lg shadow-amber-500/20 hover:from-amber-400 hover:to-amber-500 transition-all duration-200"
           aria-label="Download CV as PDF"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-            <path d="M8 12l-4-4h2.5V4h3v4H12L8 12z"/>
-            <path d="M2 13h12v1.5H2V13z"/>
+            <path d="M8 12l-4-4h2.5V4h3v4H12L8 12z" />
+            <path d="M2 13h12v1.5H2V13z" />
           </svg>
           Download PDF
-        </a>
+        </Link>
       </div>
 
       {/* Professional Summary */}

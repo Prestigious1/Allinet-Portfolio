@@ -15,6 +15,49 @@ export interface Achievement {
   unlockedAt?: number
 }
 
+export const PORTFOLIO_ACHIEVEMENTS: Achievement[] = [
+  {
+    id: 'event-master',
+    title: 'Event Master',
+    description: 'Completed a venue booking reservation in the interactive hall booking engine',
+    icon: '🎪',
+    rarity: 'common',
+    points: 25,
+  },
+  {
+    id: 'crisis-averted',
+    title: 'Crisis Averted',
+    description: 'Resolved a venue turnaround scheduling collision or double-booking conflict',
+    icon: '🛡️',
+    rarity: 'rare',
+    points: 50,
+  },
+  {
+    id: 'operations-controller',
+    title: 'Operations Controller',
+    description: 'Mastered venue operations desk challenge (booking, promo, no-show, appeal) in under 60 seconds',
+    icon: '⏱️',
+    rarity: 'legendary',
+    points: 100,
+  },
+  {
+    id: 'fleet-operator',
+    title: 'Fleet Operator',
+    description: 'Executed complete end-to-end laundry service pipeline in under 60 seconds',
+    icon: '🧺',
+    rarity: 'legendary',
+    points: 100,
+  },
+]
+
+export function getInitialAchievements(): Record<string, Achievement> {
+  const map: Record<string, Achievement> = {}
+  PORTFOLIO_ACHIEVEMENTS.forEach((ach) => {
+    map[ach.id] = { ...ach }
+  })
+  return map
+}
+
 interface AchievementsState {
   achievements: Record<string, Achievement>
   totalPoints: number
@@ -26,14 +69,12 @@ interface AchievementsState {
   getUnlockedAchievements: () => Achievement[]
   registerAchievements: (achievements: Achievement[]) => void
   revealSecret: (id: string) => void // reveals a secret achievement without unlocking
-  // Selectors / hooks (exported later)
-
 }
 
 export const useAchievementsStore = create<AchievementsState>()(
   persist(
     (set, get) => ({
-      achievements: {},
+      achievements: getInitialAchievements(),
       totalPoints: 0,
       unlockedCount: 0,
 
@@ -70,11 +111,20 @@ export const useAchievementsStore = create<AchievementsState>()(
           unlockedCount: state.unlockedCount + 1
         }))
         
-        // In a real app, we might also dispatch a toast notification here
         console.log(`[Achievement Unlocked] ${achievement.title} (+${achievement.points} pts)`)
-        
-        // Also send to backend for server-side verification if needed
-        // fetch('/api/analytics', { method: 'POST', body: JSON.stringify({ event: 'achievement_unlock', data: { id } }) })
+
+        // Dispatch browser event for UI toasts
+        if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+          try {
+            window.dispatchEvent(
+              new CustomEvent('allinet:achievement-unlocked', {
+                detail: { ...achievement, unlockedAt: now },
+              })
+            )
+          } catch {
+            // Event dispatch fallback
+          }
+        }
 
         return true
       },
@@ -90,28 +140,28 @@ export const useAchievementsStore = create<AchievementsState>()(
       },
 
       getAchievement: (id) => get().achievements[id],
-      getUnlockedAchievements: () => Object.values(get().achievements).filter(a => a.unlockedAt).sort((a, b) => (b.unlockedAt || 0) - (a.unlockedAt || 0))
+      getUnlockedAchievements: () =>
+        Object.values(get().achievements)
+          .filter(a => a.unlockedAt)
+          .sort((a, b) => (b.unlockedAt || 0) - (a.unlockedAt || 0))
     }),
     {
       name: 'allinet-achievements-storage',
       storage: createJSONStorage(() => {
-            // Simple in‑memory storage for all environments (including tests)
-            const memoryStore: Record<string, string> = {};
-            return {
-              getItem: (key: string) => {
-                const value = memoryStore[key];
-                return value === undefined ? null : value;
-              },
-              setItem: (key: string, value: string) => {
-                memoryStore[key] = value;
-              },
-              removeItem: (key: string) => {
-                delete memoryStore[key];
-              },
-            };
-          }),
-      // Only persist the unlock states to avoid caching stale achievement descriptions
-      // Only persist the unlock states to avoid caching stale achievement descriptions
+        const memoryStore: Record<string, string> = {};
+        return {
+          getItem: (key: string) => {
+            const value = memoryStore[key];
+            return value === undefined ? null : value;
+          },
+          setItem: (key: string, value: string) => {
+            memoryStore[key] = value;
+          },
+          removeItem: (key: string) => {
+            delete memoryStore[key];
+          },
+        };
+      }),
       partialize: (state) => ({ 
         unlockedStates: Object.entries(state.achievements)
           .filter(([_, a]) => a.unlockedAt)

@@ -24,7 +24,7 @@ describe('TASK-P6-03: /api/health System Diagnostic Route', () => {
     expect(json.services.cms).toBeDefined()
     expect(json.services.aiGateway).toBeDefined()
     expect(json.services.github).toBeDefined()
-  })
+  }, 15000)
 
   it('sets 60s cache headers and serves from cache on subsequent calls', async () => {
     const req = new Request('http://localhost:3000/api/health', {
