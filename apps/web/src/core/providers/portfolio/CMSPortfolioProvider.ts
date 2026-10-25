@@ -38,13 +38,19 @@ function getApiBase(): string {
     : 'http://localhost:3000/api'
 }
 
+const CMS_TIMEOUT_MS = 6000
+
 async function cmsGet<T>(path: string): Promise<T | null> {
   try {
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), CMS_TIMEOUT_MS)
     const res = await fetch(`${getApiBase()}${path}`, {
       headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
       // Allow ISR caching on Next.js server; browser fetches are always live
       next: { revalidate: 60 },
     } as RequestInit)
+    clearTimeout(timer)
     if (!res.ok) return null
     return (await res.json()) as T
   } catch {
@@ -233,11 +239,15 @@ export class CMSPortfolioProvider implements PortfolioProvider {
 
   async getExperience(): Promise<ExperienceData[]> {
     try {
-      const docs = await this.resolvePublishedCollection<any>(
+      let docs = await this.resolvePublishedCollection<any>(
         '/experiences',
         '/experiences?where[_status][equals]=published&limit=100&sort=sort_order'
       )
-      if (docs === null) {
+      if (!docs || docs.length === 0) {
+        const allData = await cmsGet<any>('/experiences?limit=100&sort=sort_order')
+        if (allData?.docs?.length) docs = allData.docs
+      }
+      if (!docs || docs.length === 0) {
         return this.fallback.getExperience()
       }
       return docs.map((doc: any): ExperienceData => ({
@@ -265,11 +275,16 @@ export class CMSPortfolioProvider implements PortfolioProvider {
 
   async getEducation(): Promise<EducationData[]> {
     try {
-      const docs = await this.resolvePublishedCollection<any>(
+      // Try published first, fall back to all docs if status filter returns nothing
+      let docs = await this.resolvePublishedCollection<any>(
         '/education',
         '/education?where[_status][equals]=published&limit=100&sort=-start_date'
       )
-      if (docs === null) {
+      if (!docs || docs.length === 0) {
+        const allData = await cmsGet<any>('/education?limit=100&sort=-start_date')
+        if (allData?.docs?.length) docs = allData.docs
+      }
+      if (!docs || docs.length === 0) {
         return this.fallback.getEducation()
       }
       return docs.map((doc: any): EducationData => ({
@@ -292,11 +307,15 @@ export class CMSPortfolioProvider implements PortfolioProvider {
 
   async getCertificates(): Promise<CertificateData[]> {
     try {
-      const docs = await this.resolvePublishedCollection<any>(
+      let docs = await this.resolvePublishedCollection<any>(
         '/certificates',
         '/certificates?where[_status][equals]=published&limit=100&sort=-issue_date'
       )
-      if (docs === null) {
+      if (!docs || docs.length === 0) {
+        const allData = await cmsGet<any>('/certificates?limit=100&sort=-issue_date')
+        if (allData?.docs?.length) docs = allData.docs
+      }
+      if (!docs || docs.length === 0) {
         return this.fallback.getCertificates()
       }
       return docs.map((doc: any): CertificateData => ({

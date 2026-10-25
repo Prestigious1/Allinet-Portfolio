@@ -29,3 +29,5 @@ Thumbs.db
 # IDE & Tooling
 .vscode/
 .idea/
+test-results/
+playwright-report/

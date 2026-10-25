@@ -65,6 +65,7 @@ export function LuxuryImageModal({
                   onClick={onClose}
                   className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white font-mono text-sm border border-white/20 transition-all flex items-center justify-center"
                   title="Close luxury view"
+                  aria-label="Close"
                 >
                   ✕
                 </button>

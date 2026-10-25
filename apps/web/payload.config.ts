@@ -32,7 +32,7 @@ const applyStandardConfig = (collection: CollectionConfig): CollectionConfig => 
   return {
     ...collection,
     access: collection.access || standardAccess,
-    versions: collection.versions || { drafts: true },
+    versions: collection.versions !== undefined ? collection.versions : { drafts: true },
     fields: [
       ...collection.fields,
       ...seoFields,
@@ -441,6 +441,7 @@ export default buildConfig({
     }),
     applyStandardConfig({
       slug: 'demos',
+      versions: false,
       admin: { useAsTitle: 'title' },
       fields: [
         { name: 'slug', type: 'text', required: true, unique: true, admin: { description: 'URL slug for demo (e.g. hall-booking, laundry).' } },
@@ -448,6 +449,7 @@ export default buildConfig({
         {
           name: 'status',
           type: 'select',
+          enumName: 'enum_demos_operational_status',
           options: ['live', 'beta', 'concept', 'archived'],
           defaultValue: 'live',
           required: true,

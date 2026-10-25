@@ -4,6 +4,38 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { useOSStore } from '@/store/os.store'
 
+// ── Floating selection copy toolbar (shared design with AION) ───────────────
+function SelectionToolbar({ x, y, text, onCopied }: { x: number; y: number; text: string; onCopied: () => void }) {
+  return (
+    <div
+      className="fixed z-[9999] flex flex-col items-center pointer-events-auto"
+      style={{ left: x, top: y, transform: 'translateX(-50%) translateY(-100%)' }}
+      onMouseDown={e => e.preventDefault()}
+    >
+      <button
+        onClick={() =>
+          navigator.clipboard.writeText(text).then(onCopied)
+        }
+        className="
+          flex items-center gap-1.5 px-2.5 py-1
+          bg-black/95 border border-gold/50
+          text-gold text-[11px] font-mono font-medium
+          rounded-full shadow-[0_0_12px_rgba(212,175,55,0.35)]
+          hover:border-gold hover:bg-gold/10
+          transition-all duration-150 whitespace-nowrap
+        "
+      >
+        <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+        </svg>
+        Copy selection
+      </button>
+      <div className="w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent border-t-gold/50 mt-[-1px]" />
+    </div>
+  )
+}
+
 type HistoryEntry = {
   command: string
   output: string | React.ReactNode
@@ -102,8 +134,41 @@ export default function TerminalApp() {
   const [showDevtools, setShowDevtools] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const outputRef = useRef<HTMLDivElement>(null)
   const { openApp, setTheme, addNotification, closeWindow, openDevtools } = useOSStore()
   const startTime = useRef(Date.now())
+
+  // ── Selection copy toolbar state ──
+  const [selToolbar, setSelToolbar] = useState<{ x: number; y: number; text: string } | null>(null)
+
+  const handleOutputMouseUp = useCallback(() => {
+    const sel = window.getSelection()
+    if (!sel || sel.isCollapsed || !sel.toString().trim()) {
+      setSelToolbar(null)
+      return
+    }
+    if (!outputRef.current?.contains(sel.anchorNode)) {
+      setSelToolbar(null)
+      return
+    }
+    const range = sel.getRangeAt(0)
+    const rect = range.getBoundingClientRect()
+    setSelToolbar({
+      x: rect.left + rect.width / 2,
+      y: rect.top - 10,
+      text: sel.toString(),
+    })
+  }, [])
+
+  // Hide toolbar when selection is cleared
+  useEffect(() => {
+    const hide = () => {
+      const s = window.getSelection()
+      if (!s || s.isCollapsed) setSelToolbar(null)
+    }
+    document.addEventListener('selectionchange', hide)
+    return () => document.removeEventListener('selectionchange', hide)
+  }, [])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -348,13 +413,30 @@ export default function TerminalApp() {
       className="w-full h-full bg-black/90 font-mono text-sm flex flex-col"
       onClick={() => inputRef.current?.focus()}
     >
+      {/* Floating selection toolbar */}
+      {selToolbar && (
+        <SelectionToolbar
+          x={selToolbar.x}
+          y={selToolbar.y}
+          text={selToolbar.text}
+          onCopied={() => {
+            setSelToolbar(null)
+            window.getSelection()?.removeAllRanges()
+          }}
+        />
+      )}
+
       {/* Scrollable Output */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-1.5">
+      <div
+        ref={outputRef}
+        onMouseUp={handleOutputMouseUp}
+        className="flex-1 overflow-y-auto px-4 py-3 space-y-1.5 select-text"
+      >
         {history.map((entry, i) => (
           <div key={i}>
             {entry.command && (
               <div className="flex items-center gap-1">
-                <span className="text-purple-400 shrink-0">visitor@allinet:~$</span>
+                <span className="text-purple-400 shrink-0 select-none">visitor@allinet:~$</span>
                 <span className="text-white">{entry.command}</span>
               </div>
             )}

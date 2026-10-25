@@ -21,7 +21,13 @@ const serverFunction: ServerFunctionClient = async function (args) {
 
 export default function Layout({ children }: Args) {
   return (
-    <RootLayout config={config} importMap={importMap} serverFunction={serverFunction} htmlProps={{ suppressHydrationWarning: true }}>
+    <RootLayout
+      config={config}
+      importMap={importMap}
+      serverFunction={serverFunction}
+      htmlProps={{ suppressHydrationWarning: true }}
+      {...({ bodyProps: { suppressHydrationWarning: true } } as any)}
+    >
       {children}
     </RootLayout>
   )

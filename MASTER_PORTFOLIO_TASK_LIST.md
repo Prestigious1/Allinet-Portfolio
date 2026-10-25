@@ -10,12 +10,12 @@
 
 | Metric | Count | Status / Notes |
 |---|---|---|
-| **Total Tasks** | **50** | Structured across 14 sequential phases (P0 to P13) |
-| **Completed Tasks (`[x]`)** | **8** | Phases P0 and P1 complete and verified |
-| **In-Progress Tasks (`[/]`)** | **1** | Next active task: `TASK-P2-01` |
+| **Total Tasks** | **71** | Structured across 14 sequential phases (P0 to P13) |
+| **Completed Tasks (`[x]`)** | **26** | Phases P0 through P4 complete and verified |
+| **In-Progress Tasks (`[/]`)** | **0** | Next active task: `TASK-P5-01` |
 | **Blocked Tasks (`[!]`)** | **0** | No external blockers |
-| **Pending Tasks (`[ ]`)** | **41** | Ready in backlog |
-| **Active Ship Gate** | **Gate G0: Green Baseline** | Focus: Fix blockers, establish tests, verify dev environment |
+| **Pending Tasks (`[ ]`)** | **45** | Ready in backlog |
+| **Active Ship Gate** | **Gate G1: Shared Infrastructure & Payload CMS** | All P0–P4 gates green (tsc, lint, test, build, seed) |
 | **Default Route Mode** | `HOME_MODE=os` | OS active at `/` until Gate G2 release flip |
 
 ### Status Notation
@@ -288,14 +288,14 @@
   - **Verification**: Unit tests for `LeadService` pass mocking Payload Local API.
   - **Evidence**: `apps/web/src/core/leads/LeadService.ts` implemented with `createLead`, `sanitizeEmail`, 24h deduplication, and safe non-blocking owner email notifications. 4 unit tests in `src/tests/unit/lead-service.test.ts` pass verifying sanitization, creation, deduplication, and email fault tolerance.
 
-- [ ] **`TASK-P4-08`**: Create Automated Database Seed Script (`scripts/seed.ts`)
+- [x] **`TASK-P4-08`**: Create Automated Database Seed Script (`scripts/seed.ts`)
   - **Phase / Gate**: P4 / G1
   - **Plan References**: T-004, Section 9.3
   - **Target Files**: `apps/web/scripts/seed.ts`, `package.json`
   - **Action**: Create idempotent seeding script (`npm run seed`) populating baseline records from `src/lib/ai/portfolio-data.ts` into Payload database (owner profile, site settings, projects, technologies, sample knowledge items).
   - **Acceptance Criteria**: Running `npm run seed` twice produces identical row counts with zero duplicate errors.
   - **Verification**: Run `npm run seed` and check `/admin` table counts.
-  - **Evidence**: `[Agent to paste seed script execution log]`
+  - **Evidence**: `npm run seed` (run 1): inserted 14 technologies, 3 knowledge-items, 3 services, 2 changelog, 2 demos, seeded portfolio-owner, site-settings, now-status. Idempotency verification (run 2): `npm run seed` completed with exit 0, inserting 0 new records across all collections (`technologies processed (0 new inserted)`, `knowledge-items processed (0 new inserted)`, `services processed (0 new inserted)`, `changelog processed (0 new inserted)`, `demos processed (0 new inserted)`).
 
 ---
 

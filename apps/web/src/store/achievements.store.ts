@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
+import React from 'react'
 
 export type AchievementRarity = 'common' | 'uncommon' | 'rare' | 'legendary'
 
@@ -24,6 +25,9 @@ interface AchievementsState {
   getAchievement: (id: string) => Achievement | undefined
   getUnlockedAchievements: () => Achievement[]
   registerAchievements: (achievements: Achievement[]) => void
+  revealSecret: (id: string) => void // reveals a secret achievement without unlocking
+  // Selectors / hooks (exported later)
+
 }
 
 export const useAchievementsStore = create<AchievementsState>()(
@@ -52,7 +56,7 @@ export const useAchievementsStore = create<AchievementsState>()(
         const state = get()
         const achievement = state.achievements[id]
         
-        if (!achievement || achievement.unlockedAt) {
+        if (!achievement || achievement.unlockedAt || achievement.secret) {
           return false // Not found or already unlocked
         }
 
@@ -75,11 +79,38 @@ export const useAchievementsStore = create<AchievementsState>()(
         return true
       },
 
+      revealSecret: (id) => {
+        set((state) => {
+          const ach = state.achievements[id]
+          if (ach && ach.secret) {
+            ach.secret = false
+          }
+          return { achievements: { ...state.achievements } }
+        })
+      },
+
       getAchievement: (id) => get().achievements[id],
       getUnlockedAchievements: () => Object.values(get().achievements).filter(a => a.unlockedAt).sort((a, b) => (b.unlockedAt || 0) - (a.unlockedAt || 0))
     }),
     {
       name: 'allinet-achievements-storage',
+      storage: createJSONStorage(() => {
+            // Simple in‑memory storage for all environments (including tests)
+            const memoryStore: Record<string, string> = {};
+            return {
+              getItem: (key: string) => {
+                const value = memoryStore[key];
+                return value === undefined ? null : value;
+              },
+              setItem: (key: string, value: string) => {
+                memoryStore[key] = value;
+              },
+              removeItem: (key: string) => {
+                delete memoryStore[key];
+              },
+            };
+          }),
+      // Only persist the unlock states to avoid caching stale achievement descriptions
       // Only persist the unlock states to avoid caching stale achievement descriptions
       partialize: (state) => ({ 
         unlockedStates: Object.entries(state.achievements)
@@ -107,3 +138,16 @@ export const useAchievementsStore = create<AchievementsState>()(
     }
   )
 )
+
+// ----- Export selector hooks -----
+export const useAchievement = (id: string) => useAchievementsStore(state => state.achievements[id]);
+export const useUnlockedAchievements = () => useAchievementsStore(state => state.getUnlockedAchievements());
+export const useTotalPoints = () => useAchievementsStore(state => state.totalPoints);
+export const useVisibleAchievements = () => {
+  const achievements = useAchievementsStore(state => state.achievements);
+  return React.useMemo(() => Object.values(achievements).filter(a => !a.secret), [achievements]);
+};
+export const useRevealSecret = (id: string) => {
+  const reveal = useAchievementsStore(state => state.revealSecret);
+  return () => reveal(id);
+};

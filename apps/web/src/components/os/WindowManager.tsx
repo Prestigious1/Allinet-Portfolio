@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useOSStore } from '@/store/os.store'
+import { AppErrorBoundary } from './AppErrorBoundary'
 
 type DragState = {
   isDragging: boolean
@@ -398,7 +399,13 @@ export default function WindowManager() {
               {/* ── Window Content ── */}
               <div className="flex-1 overflow-hidden bg-black/10 select-auto rounded-b-xl relative">
                 {AppContent ? (
-                  <AppContent {...win.props} />
+                  <AppErrorBoundary
+                    appTitle={win.title}
+                    appId={win.appId}
+                    onClose={() => closeWindow(win.id)}
+                  >
+                    <AppContent {...win.props} />
+                  </AppErrorBoundary>
                 ) : appsLoaded ? (
                   <div className="absolute inset-0 p-8 flex flex-col items-center justify-center gap-4 bg-black/40 backdrop-blur-sm text-center">
                     <div className="text-white/80 text-lg font-semibold">Unable to load &quot;{win.title}&quot;</div>
