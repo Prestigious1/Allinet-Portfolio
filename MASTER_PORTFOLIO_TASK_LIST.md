@@ -243,14 +243,14 @@
   - **Verification**: Local API creates and reads brief records successfully.
   - **Evidence**: `briefs` collection defined in `payload.config.ts` with relationship to `leads`, `organizationType`, `businessName`, `problem`, `currentTools`, `modules` (json), `locationsCount` (number), `timeline`, `budgetRange`, `generatedProposal` (json), and `shareTokenHash`. Access restricted to authenticated users. Validated via `tsc --noEmit` clean exit.
 
-- [ ] **`TASK-P4-03`**: Create `knowledge-items` Payload Collection
+- [x] **`TASK-P4-03`**: Create `knowledge-items` Payload Collection
   - **Phase / Gate**: P4 / G1
   - **Plan References**: Section 9.2, F-286, F-307
   - **Target Files**: `apps/web/payload.config.ts`
   - **Action**: Define `knowledge-items` collection for public verified facts: `title`, `category`, `content` (plain text), `sourcePath`, `tags`, `isPublic`, `verifiedAt`. Admin access only via REST; server reads for AI concierge.
   - **Acceptance Criteria**: Registered with indexes on `isPublic` and `category`.
   - **Verification**: Admin CRUD operational in `/admin`.
-  - **Evidence**: `[Agent to paste knowledge-items config]`
+  - **Evidence**: `knowledge-items` collection defined in `payload.config.ts` with fields `title`, `category` (indexed select), `content` (plain text), `sourcePath`, `tags` (json array), `isPublic` (indexed boolean), and `verifiedAt`. Access restricted to authenticated admin user via REST with server-side read capability for AI concierge. Type checked with `tsc --noEmit` exit 0.
 
 - [ ] **`TASK-P4-04`**: Create `services`, `demos`, and `changelog` Collections
   - **Phase / Gate**: P4 / G1

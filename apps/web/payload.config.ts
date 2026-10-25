@@ -378,6 +378,32 @@ export default buildConfig({
         { name: 'generatedProposal', type: 'json', admin: { description: 'Auto-generated proposal data structure.' } },
         { name: 'shareTokenHash', type: 'text', admin: { description: 'Unique hash for unguessable client share link.' } },
       ],
+    },
+    {
+      slug: 'knowledge-items',
+      admin: { useAsTitle: 'title' },
+      access: {
+        read: ({ req: { user } }: any) => Boolean(user), // Admin only via REST; server reads via Local API bypass
+        create: ({ req: { user } }: any) => Boolean(user),
+        update: ({ req: { user } }: any) => Boolean(user),
+        delete: ({ req: { user } }: any) => Boolean(user),
+      },
+      fields: [
+        { name: 'title', type: 'text', required: true, admin: { description: 'Headline or summary of this verified fact.' } },
+        {
+          name: 'category',
+          type: 'select',
+          options: ['architecture', 'dx', 'patterns', 'troubleshooting', 'faq', 'general', 'experience'],
+          required: true,
+          index: true,
+          admin: { description: 'Knowledge taxonomy category.' },
+        },
+        { name: 'content', type: 'textarea', required: true, admin: { description: 'Plain text knowledge fact for deterministic retrieval.' } },
+        { name: 'sourcePath', type: 'text', admin: { description: 'Source code path, mission file, or document citation.' } },
+        { name: 'tags', type: 'json', admin: { description: 'Array of search keywords/tags.' } },
+        { name: 'isPublic', type: 'checkbox', defaultValue: true, index: true, admin: { description: 'Whether this item is eligible for public concierge retrieval.' } },
+        { name: 'verifiedAt', type: 'date', admin: { description: 'Date when this knowledge was verified.' } },
+      ],
     }
   ],
 
