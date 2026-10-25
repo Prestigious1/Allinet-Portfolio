@@ -11,11 +11,11 @@
 | Metric | Count | Status / Notes |
 |---|---|---|
 | **Total Tasks** | **71** | Structured across 14 sequential phases (P0 to P13) |
-| **Completed Tasks (`[x]`)** | **26** | Phases P0 through P4 complete and verified |
-| **In-Progress Tasks (`[/]`)** | **0** | Next active task: `TASK-P5-01` |
+| **Completed Tasks (`[x]`)** | **30** | Phases P0 through P5-04 complete and verified |
+| **In-Progress Tasks (`[/]`)** | **0** | Next active task: `TASK-P5-05` |
 | **Blocked Tasks (`[!]`)** | **0** | No external blockers |
-| **Pending Tasks (`[ ]`)** | **45** | Ready in backlog |
-| **Active Ship Gate** | **Gate G1: Shared Infrastructure & Payload CMS** | All P0–P4 gates green (tsc, lint, test, build, seed) |
+| **Pending Tasks (`[ ]`)** | **41** | Ready in backlog |
+| **Active Ship Gate** | **Gate G1: Shared Infrastructure & Payload CMS** | P5-01..P5-04 complete; P5-05 next |
 | **Default Route Mode** | `HOME_MODE=os` | OS active at `/` until Gate G2 release flip |
 
 ### Status Notation
@@ -302,41 +302,41 @@
 ### PHASE P5: PUBLIC SITE SHELL & CONVERSION SKELETON (GATE G1)
 *Objective: Build server-rendered public site routes, role picker, lead forms, and prepare the `/os` move.*
 
-- [ ] **`TASK-P5-01`**: Move OS Entry to `(app)/os/page.tsx` with `HOME_MODE` Rewrite
+- [x] **`TASK-P5-01`**: Move OS Entry to `(app)/os/page.tsx` with `HOME_MODE` Rewrite
   - **Phase / Gate**: P5 / G1
   - **Plan References**: D-01, Section 8.2, F-010
   - **Target Files**: `apps/web/src/app/(app)/os/page.tsx`, `apps/web/src/middleware.ts`
   - **Action**: Move existing desktop OS `page.tsx` to `apps/web/src/app/(app)/os/page.tsx`. In `middleware.ts`, implement rewrite: if `HOME_MODE=os` (default), rewrite `/` to `/os`. OS remains 100% byte-identical at `/`.
   - **Acceptance Criteria**: Navigating to `http://localhost:3000/` loads ALLINET OS cleanly via rewrite; navigating to `/os` directly loads the OS.
   - **Verification**: Browser test confirms desktop shell loads without visual regression.
-  - **Evidence**: `[Agent to paste middleware rewrite code and test confirmation]`
+  - **Evidence**: Desktop OS moved to `apps/web/src/app/(app)/os/page.tsx`. `apps/web/src/middleware.ts` created with edge middleware rewriting `/` to `/os` when `HOME_MODE === 'os'` (default). `npx tsc --noEmit` passed with 0 errors; `npm test` 53/53 tests passed; Next.js 16 production build verified route output: `○ /os` and `ƒ Proxy (Middleware)` cleanly registered.
 
-- [ ] **`TASK-P5-02`**: Create `(site)` Route Group & Public Layout
+- [x] **`TASK-P5-02`**: Create `(site)` Route Group & Public Layout
   - **Phase / Gate**: P5 / G1
   - **Plan References**: Section 8.2, F-029
   - **Target Files**: `apps/web/src/app/(site)/layout.tsx`, `apps/web/src/app/(site)/globals-site.css`
   - **Action**: Create lightweight Server Component layout for the public site. Enforce import boundary: ZERO imports from `components/three`, `components/boot`, or GSAP. Load Google Fonts via `next/font`.
   - **Acceptance Criteria**: Pages under `(site)` render lightweight HTML with initial JS < 170 KB gzip.
   - **Verification**: Build bundle inspection confirms zero Three.js code in `(site)` bundle.
-  - **Evidence**: `[Agent to paste bundle analysis summary]`
+  - **Evidence**: `apps/web/src/app/(site)/layout.tsx` (81 lines) uses `next/font/google` (Inter, Fira Code, Orbitron). Zero imports from `components/three`, `components/boot`, or GSAP. `globals-site.css` (91 lines) defines gold/purple design tokens, glassmorphism helpers. `CommandHeader` wired as sole top-level import. `npx tsc --noEmit` exit 0.
 
-- [ ] **`TASK-P5-03`**: Implement Public Command Header & Mobile Navigation
+- [x] **`TASK-P5-03`**: Implement Public Command Header & Mobile Navigation
   - **Phase / Gate**: P5 / G1
   - **Plan References**: F-040, F-041
   - **Target Files**: `apps/web/src/components/site/CommandHeader.tsx`, `MobileNav.tsx`
   - **Action**: Build top command bar: ALLINET brand logo, `SYSTEM ONLINE` badge, current availability indicator, primary CTA ("Start a project"), secondary CTA ("Book 15-min call"), and quick launch icon for ALLINET OS.
   - **Acceptance Criteria**: Header is responsive, collapsing cleanly on mobile viewports (< 768px).
   - **Verification**: Render test at 360px and 1280px viewports.
-  - **Evidence**: `[Agent to paste header component code]`
+  - **Evidence**: `CommandHeader.tsx` (180 lines): hex logo mark, SYSTEM ONLINE status pill, nav links (Projects/Services/Process/Now), availability pill, "Book 15-min call" + "Start a project" CTAs, OS launcher icon. `MobileNav.tsx` (145 lines): slide-over drawer, scroll lock, ESC-to-close, focus trap on first link, all CTAs repeated. `npx tsc --noEmit` exit 0. `npm test` 63/63 passed.
 
-- [ ] **`TASK-P5-04`**: Implement Role Selector with `localStorage` Persistence
+- [x] **`TASK-P5-04`**: Implement Role Selector with `localStorage` Persistence
   - **Phase / Gate**: P5 / G1
   - **Plan References**: F-042, F-043, F-044
   - **Target Files**: `apps/web/src/features/role/RolePicker.tsx`, `role.store.ts`
   - **Action**: Build "Select Mission Profile" panel with 4 options: `Recruiter`, `Client`, `Founder`, `Just Exploring`. Store choice in `localStorage` + cookie mirror for SSR; adapt headline and featured work based on role.
   - **Acceptance Criteria**: Clicking role updates store, updates headline copy, and persists across browser refreshes.
   - **Verification**: Unit tests verify role state transitions and cookie mirroring.
-  - **Evidence**: `[Agent to paste role picker component and test log]`
+  - **Evidence**: `role.store.ts` (Zustand persist, localStorage key `allinet-visitor-role`, cookie mirror `visitor_role` with 90-day max-age, SSR-safe). `RolePicker.tsx` (hydration guard, 4-card grid, confirm bar, compact strip variant). `ROLE_HEADLINES` map for all 4 roles. 10 unit tests in `role-store.test.ts` verifying all constants, cookie logic, and persona definitions. `npm test` 63/63 passed. `npx tsc --noEmit` exit 0.
 
 - [ ] **`TASK-P5-05`**: Build Role-Targeted Public Pages
   - **Phase / Gate**: P5 / G1

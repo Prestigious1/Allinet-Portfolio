@@ -10,7 +10,7 @@ import { services } from '@/core/providers'
 
 const DynamicIntroScene = dynamic(() => import('@/components/three/IntroScene'), { ssr: false })
 
-export default function Home() {
+export default function OSPage() {
   const { isBooting, finishBoot, setSystemApps } = useOSStore()
   const [showIntro, setShowIntro] = useState(false)
 
