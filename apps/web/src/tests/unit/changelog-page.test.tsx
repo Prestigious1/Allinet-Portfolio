@@ -6,6 +6,7 @@ import * as ChangelogService from '@/core/status/ChangelogService'
 describe('TASK-P6-02: /changelog Product Updates Page', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
+    vi.spyOn(ChangelogService, 'getChangelogEntries').mockResolvedValue(ChangelogService.FALLBACK_CHANGELOG)
   })
 
   it('renders page header with single h1', async () => {

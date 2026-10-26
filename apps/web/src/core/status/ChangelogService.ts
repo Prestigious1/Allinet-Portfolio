@@ -68,6 +68,7 @@ export async function getChangelogEntries(): Promise<ChangelogEntry[]> {
       {
         headers: { 'Content-Type': 'application/json' },
         next: { revalidate: 60 },
+        signal: AbortSignal.timeout(1500),
       }
     )
 

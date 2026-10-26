@@ -13,11 +13,12 @@ export default async function NowPage() {
   const status = await getNowStatus()
   const isStale = isStatusStale(status.progressUpdatedAt)
 
+  const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || 'Prestigious1'
   // Fetch repos if enabled
   let repos: any[] = []
   if (status.showGithub) {
     try {
-      const gh = await services.github.getPinnedRepos('alli-net')
+      const gh = await services.github.getPinnedRepos(username)
       if (gh.data) {
         repos = gh.data
       }
@@ -231,12 +232,12 @@ export default async function NowPage() {
                 Recent Code Activity
               </span>
               <a
-                href="https://github.com/alli-net"
+                href={`https://github.com/${username}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-amber-400 hover:text-amber-300 transition-colors font-mono"
               >
-                github.com/alli-net →
+                github.com/{username} →
               </a>
             </div>
 

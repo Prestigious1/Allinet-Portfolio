@@ -17,7 +17,10 @@ export async function GET(req: Request) {
   }
 
   const { searchParams } = new URL(req.url)
-  const username = searchParams.get('username') || process.env.NEXT_PUBLIC_GITHUB_USERNAME
+  const rawUsername = searchParams.get('username') || process.env.NEXT_PUBLIC_GITHUB_USERNAME
+  const username = (!rawUsername || rawUsername === 'alli-net')
+    ? (process.env.NEXT_PUBLIC_GITHUB_USERNAME || 'Prestigious1')
+    : rawUsername
 
   if (!username) {
     return NextResponse.json(
@@ -28,6 +31,7 @@ export async function GET(req: Request) {
 
   const headers: Record<string, string> = {
     'Accept': 'application/vnd.github.v3+json',
+    'User-Agent': 'Allinet-Portfolio',
   }
 
   if (process.env.GITHUB_TOKEN) {

@@ -11,10 +11,11 @@ import { services } from '@/core/providers'
  */
 export async function LiveStatusBoard() {
   const status = await getNowStatus()
+  const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || 'Prestigious1'
 
   let stats = { totalStars: 128, publicRepos: 38 }
   try {
-    const ghStats = await services.github.getStats('alli-net')
+    const ghStats = await services.github.getStats(username)
     if (ghStats.data) {
       stats = ghStats.data
     }
@@ -77,7 +78,7 @@ export async function LiveStatusBoard() {
             </span>
             <a
               id="status-board-github-link"
-              href="https://github.com/alli-net"
+              href={`https://github.com/${username}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-xs sm:text-sm font-medium text-slate-200 hover:text-amber-300 transition-colors flex items-center gap-1.5 font-mono"

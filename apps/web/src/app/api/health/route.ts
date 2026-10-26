@@ -81,8 +81,9 @@ export async function checkSystemHealth(forceFresh = false): Promise<HealthCheck
   // 4. Probe GitHub Provider Status
   const ghStart = performance.now()
   let ghStatus: ServiceHealth = { status: 'mock' }
+  const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || 'Prestigious1'
   try {
-    const ghRes = await services.github.getPinnedRepos('alli-net')
+    const ghRes = await services.github.getPinnedRepos(username)
     const ghLatency = Math.round(performance.now() - ghStart)
     if (ghRes.error) {
       ghStatus = { status: 'degraded', latencyMs: ghLatency, details: ghRes.error.message }
