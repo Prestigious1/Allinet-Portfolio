@@ -88,7 +88,9 @@ export function useShortcuts({
 
   // Keep a ref to the current shortcut list so the event listener closure stays stable
   const shortcutsRef = useRef(shortcuts)
-  shortcutsRef.current = shortcuts
+  useEffect(() => {
+    shortcutsRef.current = shortcuts
+  }, [shortcuts])
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {

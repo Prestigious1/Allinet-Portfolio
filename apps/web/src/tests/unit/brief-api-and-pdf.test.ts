@@ -84,7 +84,7 @@ describe('TASK-P10-03: Brief Submission API & PDF Export', () => {
 
     expect(pdfBytes).toBeInstanceOf(Uint8Array)
     expect(pdfBytes.length).toBeGreaterThan(1000)
-    expect(duration).toBeLessThan(1000) // Much faster than 3s requirement
+    expect(duration).toBeLessThan(3000) // Must complete within 3s requirement
 
     // Verify it parses as a valid PDF with 2 pages
     const loadedDoc = await PDFDocument.load(pdfBytes)

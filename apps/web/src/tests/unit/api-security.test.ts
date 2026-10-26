@@ -104,7 +104,7 @@ describe('TASK-P12-04: Security & Penetration Verification', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({}),
       })
-      const res = await leadsPost(req)
+      const res = await leadsPost(req, {})
       expect(res.status).toBe(400)
       const data = await res.json()
       expect(data.error?.code).toBe('VALIDATION_ERROR')
@@ -116,7 +116,7 @@ describe('TASK-P12-04: Security & Penetration Verification', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({}),
       })
-      const res = await contactPost(req)
+      const res = await contactPost(req, {})
       expect(res.status).toBe(400)
     })
 
@@ -126,7 +126,7 @@ describe('TASK-P12-04: Security & Penetration Verification', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({}),
       })
-      const res = await briefPost(req)
+      const res = await briefPost(req, {})
       expect(res.status).toBe(400)
       const data = await res.json()
       expect(data.error?.code).toBe('VALIDATION_ERROR')

@@ -63,7 +63,7 @@ describe('DemoShell Component (TASK-P7-03 / F-090..F-097)', () => {
     expect(localStorage.getItem(mockStorageKey)).toBeDefined();
 
     // Click "Reset Demo Data"
-    const resetBtn = screen.getByRole('button', { name: /reset demo sandbox/i });
+    const resetBtn = screen.getByRole('button', { name: /reset demo data/i });
     fireEvent.click(resetBtn);
 
     // Modal appears
